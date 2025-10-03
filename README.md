@@ -39,7 +39,6 @@ CREATE TABLE Company_fact_table (
     company_key INT PRIMARY KEY,
     legal_form_key INT NOT NULL,
     status_key INT NOT NULL,
-    -- Add other numerical facts later (e.g., number of activities, revenue if available)
     FOREIGN KEY (legal_form_key) REFERENCES Legal_form_dim(legal_form_key),
     FOREIGN KEY (status_key) REFERENCES Status_dim(status_key)
 );
