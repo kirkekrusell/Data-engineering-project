@@ -26,8 +26,8 @@ Datasets
 Key columns: Name, Register code, Legal form, Status, First entry date, Address, Location codes
 
 2. Notice of Economic Activities (Economic Activity Register)
-35,769 rows, 8 columns
-Key columns: Number, Entrepreneur name, Register code, Start & End date, Valid, Field of activity and Additional_info 
+35,769 rows, 9 columns
+Key columns: Number, Entrepreneur name, Register code, Start & End date, Valid, Field of activity, Type of area of activity and Additional_info 
 
 You can create fact and dimension tables with this SQL script
 
