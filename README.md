@@ -31,10 +31,10 @@ Key columns: Number, Entrepreneur name, Register code, Start & End date, Valid, 
 
 You can create fact and dimension tables with this SQL script
 
+```sql
 -- 1. Company Fact Table
 -- Grain: 1 row per company (per business registration code)
 
-```sql
 CREATE TABLE Company_fact_table (
     company_key INT PRIMARY KEY,
     legal_form_key INT NOT NULL,
