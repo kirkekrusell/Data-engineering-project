@@ -1,6 +1,13 @@
 # Project Overview
 This project aims to analyze Estonian companies’ economic activities by combining basic company data from the Business Register with economic activity areas from the MTR (Main Economic Activity Registry). The goal is to identify sector trends, regional differences, and company activity patterns across Estonia.
 
+Stakeholders   
+1. Data Analysts
+2. Policymakers
+3. Investors
+4. Banks and Financial Institutions
+5. Public and Media
+
 Key Metrics (KPIs)
 1. Number of activity notices per company
 2. Share of companies with expired activity notices
