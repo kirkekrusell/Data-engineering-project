@@ -104,3 +104,6 @@ CREATE TABLE Activity_dim (
     extra_info TEXT
 );
 ```
+Demo Queries
+
+Siia võiks lisada need näited, mida me oma andmebaasiga teha saame (Kirke tehtud SQL)
