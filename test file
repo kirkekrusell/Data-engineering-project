@@ -72,3 +72,4 @@ CREATE TABLE Activity_dim (
     type_of_activity VARCHAR(100),
     extra_info TEXT
 );
+```
