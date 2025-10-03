@@ -2,8 +2,8 @@
 This project aims to analyze Estonian companies’ economic activities by combining basic company data from the Business Register with economic activity areas from the MTR (Main Economic Activity Registry). The goal is to identify sector trends, regional differences, and company activity patterns across Estonia.
 
 Key Metrics (KPIs)
-Number of activity notices per company
-Share of companies with expired activity notices
+1. Number of activity notices per company
+2. Share of companies with expired activity notices
 
 Business Questions
 1. How many companies have multiple activity notices and operate in multiple sectors?
