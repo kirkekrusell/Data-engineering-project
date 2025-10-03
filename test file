@@ -1,6 +1,7 @@
 #test fail kus katsetada
 -- 1. Company Fact Table
 -- Grain: 1 row per company (per business registration code)
+
 CREATE TABLE Company_fact_table (
     company_key INT PRIMARY KEY,
     legal_form_key INT NOT NULL,
@@ -12,6 +13,7 @@ CREATE TABLE Company_fact_table (
 
 -- 2. MTR Fact Table
 -- Grain: 1 row per MTR register code (majandustegevusteate nr)
+
 CREATE TABLE MTR_fact_table (
     mtr_register_code INT PRIMARY KEY,
     company_key INT NOT NULL,
