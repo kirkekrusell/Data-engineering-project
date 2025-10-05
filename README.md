@@ -16,9 +16,8 @@ Business Questions
 1. How many companies have multiple activity notices and operate in multiple sectors?
 2. How many companies registered their economic activity areas in the same year they were established?
 3. How many companies have terminated at least one economic activity notice?
-4. Which companies have a single activity notice but cover multiple economic sectors?
-5. Average duration of an activity notice before expiration
-6. Percentage of companies with all activity notices expired
+4. Average duration of an activity notice before expiration
+5. Percentage of companies with all activity notices expired
 
 Datasets
 1. Basic Company Data (Business Register)
