@@ -69,6 +69,7 @@ CREATE TABLE dim_companies (
     registry_code VARCHAR(20) NOT NULL,
     company_name VARCHAR(255),
     vat_code VARCHAR(20),
+    initial_registration_date TIMESTAMP,   
     valid_from TIMESTAMP NOT NULL,
     valid_to TIMESTAMP,
     normalized_address VARCHAR(500),
