@@ -111,17 +111,11 @@ Demo Queries
 
 ```sql
 SELECT COUNT(*) AS company_count 
-
 FROM ( 
-
     SELECT dim_company_id 
-
     FROM fact_mtr 
-
     GROUP BY dim_company_id 
-
     HAVING COUNT(DISTINCT dim_activity_id) > 1 
-
        AND COUNT(DISTINCT mtr_registry_code) > 1 
 
 ) AS sub 
@@ -135,11 +129,8 @@ FROM (
 
 3. How many companies have terminated at least one economic activity notice?
 ```sql
-
 SELECT COUNT(DISTINCT dim_company_id) AS terminated_company_count 
-
 FROM fact_mtr 
-
 WHERE expiry_date < CURRENT_DATE 
 ```
  
@@ -147,11 +138,8 @@ WHERE expiry_date < CURRENT_DATE
 4. What is the average duration of an activity notice before it expires? 
 ```sql
 SELECT  
-
     ROUND(AVG(DATE_PART('day', expiry_date - start_date)), 2) AS avg_notice_duration_days 
-
 FROM fact_mtr 
-
 WHERE expiry_date IS NOT NULL AND start_date IS NOT NULL 
 ```
  
@@ -159,27 +147,14 @@ WHERE expiry_date IS NOT NULL AND start_date IS NOT NULL
 5. Percentage of companies with all activity notices expired? 
 ```sql
 SELECT  
-
     ROUND( 
-
-        100.0 * COUNT(CASE WHEN all_expired THEN 1 END) / COUNT(DISTINCT dim_company_id), 
-
-        2 
-
-    ) AS percentage_expired_companies 
-
+        100.0 * COUNT(CASE WHEN all_expired THEN 1 END) / COUNT(DISTINCT dim_company_id), 2) AS percentage_expired_companies 
 FROM ( 
-
     SELECT  
-
         dim_company_id, 
-
         MAX(expiry_date) < CURRENT_DATE AS all_expired 
-
     FROM fact_mtr 
-
     GROUP BY dim_company_id 
-
 ) AS company_status 
 ```
 
