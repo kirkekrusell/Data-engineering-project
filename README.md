@@ -31,76 +31,79 @@ Key columns: Number, Entrepreneur name, Register code, Start & End date, Valid, 
 You can create fact and dimension tables with this SQL script
 
 ```sql
--- 1. Company Fact Table
--- Grain: 1 row per company (per business registration code)
+-- =====================================================
+-- 1. FACT TABLES
+-- =====================================================
 
-CREATE TABLE Company_fact_table (
-    company_key INT PRIMARY KEY,
-    legal_form_key INT NOT NULL,
-    status_key INT NOT NULL,
-    FOREIGN KEY (legal_form_key) REFERENCES Legal_form_dim(legal_form_key),
-    FOREIGN KEY (status_key) REFERENCES Status_dim(status_key)
+-- 1.1 Company Fact Table
+-- Grain: 1 row per company (per business register code)
+CREATE TABLE fact_companies (
+    fact_company_id SERIAL PRIMARY KEY,
+    dim_companies_id INT NOT NULL,
+    dim_legal_form_id INT NOT NULL,
+    dim_status_id INT NOT NULL,
+    FOREIGN KEY (dim_companies_id) REFERENCES dim_companies(id),
+    FOREIGN KEY (dim_legal_form_id) REFERENCES dim_legal(id),
+    FOREIGN KEY (dim_status_id) REFERENCES dim_status(id)
 );
 
--- 2. MTR Fact Table
--- Grain: 1 row per MTR register code (majandustegevusteate nr)
-
-CREATE TABLE MTR_fact_table (
-    mtr_register_code INT PRIMARY KEY,
-    company_key INT NOT NULL,
+-- 1.2 MTR Fact Table
+-- Grain: 1 row per MTR registry code (economic activity notice)
+CREATE TABLE fact_mtr (
+    mtr_registry_code VARCHAR(50) PRIMARY KEY,
+    dim_companies_id INT NOT NULL,
     valid_from DATE,
     valid_to DATE,
-    activity_key INT NOT NULL,
-    FOREIGN KEY (company_key) REFERENCES Company_dim(company_key),
-    FOREIGN KEY (activity_key) REFERENCES Activity_dim(activity_key)
+    dim_activity_id INT NOT NULL,
+    FOREIGN KEY (dim_companies_id) REFERENCES dim_companies(id),
+    FOREIGN KEY (dim_activity_id) REFERENCES dim_activity(id)
 );
 
--- Company Dimension
--- SCD Type 2: keep history of name/address changes
-CREATE TABLE Company_dim (
-    company_key INT PRIMARY KEY,
-    business_register_code VARCHAR(50) NOT NULL,
-    name VARCHAR(255),
-    kmkr_nr VARCHAR(50),
-    valid_from DATE NOT NULL,
-    valid_to DATE,
-    normalized_address VARCHAR(255),
-    postal_code VARCHAR(20),
+-- =====================================================
+-- 2. DIMENSION TABLES
+-- =====================================================
+
+-- 2.1 Company Dimension (SCD Type 2)
+CREATE TABLE dim_companies (
+    id SERIAL PRIMARY KEY,
+    registry_code VARCHAR(20) NOT NULL,
+    company_name VARCHAR(255),
+    vat_code VARCHAR(20),
+    valid_from TIMESTAMP NOT NULL,
+    valid_to TIMESTAMP,
+    normalized_address VARCHAR(500),
+    postal_code VARCHAR(10),
     adr_id VARCHAR(50)
 );
 
--- Legal Form Dimension
--- SCD Type 0: static list of legal forms
-CREATE TABLE Legal_form_dim (
-    legal_form_key INT PRIMARY KEY,
+-- 2.2 Legal Form Dimension (SCD Type 0)
+CREATE TABLE dim_legal (
+    id SERIAL PRIMARY KEY,
     legal_form VARCHAR(100) NOT NULL,
     legal_form_subtype VARCHAR(100)
 );
 
--- Status Dimension
--- SCD Type 0: static list of statuses
-CREATE TABLE Status_dim (
-    status_key INT PRIMARY KEY,
-    company_status VARCHAR(50),
-    company_status_text VARCHAR(255)
+-- 2.3 Status Dimension (SCD Type 0)
+CREATE TABLE dim_status (
+    id SERIAL PRIMARY KEY,
+    status_code VARCHAR(50),
+    status_name VARCHAR(255)
 );
 
--- Date Dimension
--- SCD Type 0: static calendar
-CREATE TABLE Date_dim (
-    date_key INT PRIMARY KEY,
-    year INT,
-    month INT,
-    day INT
+-- 2.4 Date Dimension (SCD Type 0)
+CREATE TABLE dim_date (
+    id SERIAL PRIMARY KEY,
+    year INT CHECK (year BETWEEN 1900 AND 2100),
+    month INT CHECK (month BETWEEN 1 AND 12),
+    day INT CHECK (day BETWEEN 1 AND 31)
 );
 
--- Activity Dimension
--- SCD Type 0: static set of activities
-CREATE TABLE Activity_dim (
-    activity_key INT PRIMARY KEY,
-    area_of_activity VARCHAR(255),
-    type_of_activity VARCHAR(100),
-    extra_info TEXT
+-- 2.5 Activity Dimension (SCD Type 0)
+CREATE TABLE dim_activity (
+    id SERIAL PRIMARY KEY,
+    activity_area VARCHAR(255),
+    activity_type VARCHAR(100),
+    additional_info TEXT
 );
 ```
 Demo Queries
