@@ -125,15 +125,15 @@ FROM (
 2. How many companies registered their economic activity areas in the same year they were established? 
 
 ```sql
-SELECT COUNT(DISTINCT dim_companies.id) AS same_year_company_count
+SELECT COUNT(DISTINCT dim_companies_id) AS same_year_company_count
 FROM fact_mtr
-JOIN dim_companies ON fact_mtr.dim_companies_id = dim_companies.id
+JOIN dim_companies ON fact_mtr.dim_companies_id = dim_companies_id
 WHERE EXTRACT(YEAR FROM fact_mtr.valid_from) = EXTRACT(YEAR FROM dim_companies.initial_registration_date);
 ```
 
 3. How many companies have terminated at least one economic activity notice?
 ```sql
-SELECT COUNT(DISTINCT dim_company_id) AS terminated_company_count 
+SELECT COUNT(DISTINCT dim_companies_id) AS terminated_company_count 
 FROM fact_mtr 
 WHERE expiry_date < CURRENT_DATE 
 ```
