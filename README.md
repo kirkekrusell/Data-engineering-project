@@ -111,24 +111,24 @@ Demo Queries
 1. How many companies have multiple activity notices and operate in multiple sectors?  
 
 ```sql
-SELECT COUNT(*) AS company_count 
-FROM ( 
-    SELECT dim_company_id 
-    FROM fact_mtr 
-    GROUP BY dim_company_id 
-    HAVING COUNT(DISTINCT dim_activity_id) > 1 
-       AND COUNT(DISTINCT mtr_registry_code) > 1 
-
-) AS sub 
+SELECT COUNT(*) AS company_count
+FROM (
+    SELECT dim_companies_id
+    FROM fact_mtr
+    GROUP BY dim_companies_id
+    HAVING COUNT(DISTINCT dim_activity_id) > 1
+       AND COUNT(DISTINCT mtr_registry_code) > 1
+) AS sub;
 ```
  
 
 2. How many companies registered their economic activity areas in the same year they were established? 
 
 ```sql
-SELECT COUNT(DISTINCT dim_companies.id) AS same_year_company_count FROM fact_mtr JOIN dim_companies
-ON fact_mtr.dim_companies_id = dim_companies.id
-WHERE EXTRACT(YEAR FROM fact_mtr.valid_from) = EXTRACT(YEAR FROM dim_companies.initial_registration_date); 
+SELECT COUNT(DISTINCT dim_companies.id) AS same_year_company_count
+FROM fact_mtr
+JOIN dim_companies ON fact_mtr.dim_companies_id = dim_companies.id
+WHERE EXTRACT(YEAR FROM fact_mtr.valid_from) = EXTRACT(YEAR FROM dim_companies.initial_registration_date);
 ```
 
 3. How many companies have terminated at least one economic activity notice?
@@ -152,13 +152,13 @@ WHERE expiry_date IS NOT NULL AND start_date IS NOT NULL
 ```sql
 SELECT  
     ROUND( 
-        100.0 * COUNT(CASE WHEN all_expired THEN 1 END) / COUNT(DISTINCT dim_company_id), 2) AS percentage_expired_companies 
+        100.0 * COUNT(CASE WHEN all_expired THEN 1 END) / COUNT(DISTINCT dim_companies_id), 2) AS percentage_expired_companies 
 FROM ( 
     SELECT  
-        dim_company_id, 
+        dim_companies_id, 
         MAX(expiry_date) < CURRENT_DATE AS all_expired 
     FROM fact_mtr 
-    GROUP BY dim_company_id 
+    GROUP BY dim_companies_id 
 ) AS company_status 
 ```
 
