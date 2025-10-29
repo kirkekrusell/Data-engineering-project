@@ -13,7 +13,7 @@ services:
       PGPASSWORD: airflow
       PGDATABASE: airflow
     ports:
-      - "5432:5432"
+      - "5434:5432"
     volumes:
       - ./pgdata_airflow:/var/lib/postgresql/data
     healthcheck:
