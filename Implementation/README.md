@@ -18,7 +18,16 @@ http://localhost:5050
 Access Airflow at:
 http://localhost:8080
 
-to run the py file, make sure you have the airflow library installed
-```shell
-pip install "apache-airflow[celery]==2.8.1" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.8.1/constraints-3.10.txt"
-```
+# DAG - MTR file quality check
+
+The DAG (´validate.py´) is located in the ´implementation/´ folder. When setting up Airflow, you need to copy this file into the Airflow DAGs directory:
+
+´cp implementation/validate.py airflow/dags/´
+
+First time it does not automatically detect the dag, you need to run airflow init.
+
+´airflow db init´
+
+## DAG overview
+
+This DAG reads the modified MTR file (´mtr_test_2.csv´), checks for NAs in the "Registrikood" column, removes the found rows with NAs and creates a new file version. The dag runs once a week at midnight on Sunday morning.
