@@ -36,3 +36,16 @@ First time it does not automatically detect the dag, you need to run airflow ini
 ## DAG overview
 
 This DAG reads the modified MTR file (`mtr_test_2.csv`), checks for NAs in the "Registrikood" column, removes the found rows with NAs and creates a new file version. The dag runs once a week at midnight on Sunday morning.
+
+## Data Storage (ClickHouse)  
+
+CLickHouse Query
+CREATE TABLE bronze_mtr_raw (
+    registrikood String,
+    tegevusala String,
+    alguskuupaev Date,
+    loppkuupaev Date,
+    staatus String,
+    allikas String
+) ENGINE = MergeTree()
+ORDER BY registrikood;
