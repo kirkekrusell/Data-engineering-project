@@ -12,12 +12,15 @@ docker-compose up -d
 | prices-db    | prices_user        | prices_pass  | 5433  |
 | pgAdmin      | admin@example.com  | admin        | 5050  |
 | Clickhouse   | default            | clickhouse   | 8123  |
+
 Access pgAdmin at:
 http://localhost:5050
 
 Access Airflow at:
 http://localhost:8080
 
+Access Clickhouse at:
+http://localhost:8123
 
 # DAG - MTR file quality check
 
