@@ -97,7 +97,7 @@ services:
       - airflow-db
     restart: "no"
 
-  # --- ClickHouse server ---
+# --- ClickHouse server ---
   clickhouse:
     container_name: clickhouse
     image: clickhouse/clickhouse-server:latest
@@ -106,6 +106,9 @@ services:
       - "9000:9000"   # Native TCP port
     volumes:
       - clickhouse_data:/var/lib/clickhouse
+    environment:
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: clickhouse
     restart: always
 
 volumes:
