@@ -39,8 +39,8 @@ This DAG reads the modified MTR file (`mtr_test_2.csv`), checks for NAs in the "
 
 ## Data Storage (ClickHouse)  
 
-CLickHouse Query
-CREATE TABLE bronze_mtr_raw (
+In CLickHouse Query create table bronze_mtr_raw where we are adding new data
+`CREATE TABLE bronze_mtr_raw (
     registrikood String,
     tegevusala String,
     alguskuupaev Date,
@@ -48,4 +48,8 @@ CREATE TABLE bronze_mtr_raw (
     staatus String,
     allikas String
 ) ENGINE = MergeTree()
-ORDER BY registrikood;
+ORDER BY registrikood;`
+
+The DAG (`load_to_clickhouse.py`) is located in the `implementation/` folder. When setting up Airflow, you need to copy this file into the Airflow DAGs directory:
+
+`cp implementation/load_to_clickhouse.py airflow/dags/`
