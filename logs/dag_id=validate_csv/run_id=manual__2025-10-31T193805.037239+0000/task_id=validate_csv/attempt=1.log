@@ -1,0 +1,18 @@
+[2025-10-31T19:38:09.431+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: validate_csv.validate_csv manual__2025-10-31T19:38:05.037239+00:00 [queued]>
+[2025-10-31T19:38:09.458+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: validate_csv.validate_csv manual__2025-10-31T19:38:05.037239+00:00 [queued]>
+[2025-10-31T19:38:09.460+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 1
+[2025-10-31T19:38:09.499+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): validate_csv> on 2025-10-31 19:38:05.037239+00:00
+[2025-10-31T19:38:09.522+0000] {standard_task_runner.py:60} INFO - Started process 865 to run task
+[2025-10-31T19:38:09.529+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'validate_csv', 'validate_csv', 'manual__2025-10-31T19:38:05.037239+00:00', '--job-id', '15', '--raw', '--subdir', 'DAGS_FOLDER/validate.py', '--cfg-path', '/tmp/tmpjm2ci81l']
+[2025-10-31T19:38:09.562+0000] {standard_task_runner.py:88} INFO - Job 15: Subtask validate_csv
+[2025-10-31T19:38:09.919+0000] {task_command.py:423} INFO - Running <TaskInstance: validate_csv.validate_csv manual__2025-10-31T19:38:05.037239+00:00 [running]> on host e13be8f86677
+[2025-10-31T19:38:10.232+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='validate_csv' AIRFLOW_CTX_TASK_ID='validate_csv' AIRFLOW_CTX_EXECUTION_DATE='2025-10-31T19:38:05.037239+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-10-31T19:38:05.037239+00:00'
+[2025-10-31T19:38:12.916+0000] {logging_mixin.py:188} INFO - 1
+[2025-10-31T19:38:12.998+0000] {logging_mixin.py:188} INFO -          Number Ettevőtja nimi  ... Lisainfo Arhiveerimise aeg
+1455  MAV000031      Sven Roos  ...      NaN               NaN
+
+[1 rows x 9 columns]
+[2025-10-31T19:38:13.295+0000] {python.py:201} INFO - Done. Returned value was: None
+[2025-10-31T19:38:13.338+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=validate_csv, task_id=validate_csv, execution_date=20251031T193805, start_date=20251031T193809, end_date=20251031T193813
+[2025-10-31T19:38:13.459+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2025-10-31T19:38:13.524+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

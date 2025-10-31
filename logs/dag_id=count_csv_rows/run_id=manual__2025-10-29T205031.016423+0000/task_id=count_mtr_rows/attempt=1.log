@@ -1,0 +1,14 @@
+[2025-10-29T20:50:39.666+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: count_csv_rows.count_mtr_rows manual__2025-10-29T20:50:31.016423+00:00 [queued]>
+[2025-10-29T20:50:39.696+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: count_csv_rows.count_mtr_rows manual__2025-10-29T20:50:31.016423+00:00 [queued]>
+[2025-10-29T20:50:39.697+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 1
+[2025-10-29T20:50:39.742+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): count_mtr_rows> on 2025-10-29 20:50:31.016423+00:00
+[2025-10-29T20:50:39.799+0000] {standard_task_runner.py:60} INFO - Started process 193 to run task
+[2025-10-29T20:50:39.913+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'count_csv_rows', 'count_mtr_rows', 'manual__2025-10-29T20:50:31.016423+00:00', '--job-id', '3', '--raw', '--subdir', 'DAGS_FOLDER/count_csv_rows.py', '--cfg-path', '/tmp/tmpj0kec8yn']
+[2025-10-29T20:50:39.983+0000] {standard_task_runner.py:88} INFO - Job 3: Subtask count_mtr_rows
+[2025-10-29T20:50:40.871+0000] {task_command.py:423} INFO - Running <TaskInstance: count_csv_rows.count_mtr_rows manual__2025-10-29T20:50:31.016423+00:00 [running]> on host f0f89007f370
+[2025-10-29T20:50:42.777+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='count_csv_rows' AIRFLOW_CTX_TASK_ID='count_mtr_rows' AIRFLOW_CTX_EXECUTION_DATE='2025-10-29T20:50:31.016423+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-10-29T20:50:31.016423+00:00'
+[2025-10-29T20:50:42.786+0000] {logging_mixin.py:188} INFO - Faili MTR.csv ei leitud!
+[2025-10-29T20:50:42.787+0000] {python.py:201} INFO - Done. Returned value was: None
+[2025-10-29T20:50:42.888+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=count_csv_rows, task_id=count_mtr_rows, execution_date=20251029T205031, start_date=20251029T205039, end_date=20251029T205042
+[2025-10-29T20:50:43.031+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2025-10-29T20:50:43.151+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check
