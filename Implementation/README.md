@@ -6,12 +6,12 @@ docker-compose up -d
 
 ### Credentials
 
-| Component  | Username           | Password     | Port  |
-|------------|--------------------|--------------|-------|
-| airflow-db | airflow            | airflow      | 5432  |
-| prices-db  | prices_user        | prices_pass  | 5433  |
-| pgAdmin    | admin@example.com  | admin        | 5050  |
-
+| Component    | Username           | Password     | Port  |
+|--------------|--------------------|--------------|-------|
+| airflow-db   | airflow            | airflow      | 5432  |
+| prices-db    | prices_user        | prices_pass  | 5433  |
+| pgAdmin      | admin@example.com  | admin        | 5050  |
+| Clickhouse   | default            | clickhouse   | 8123  |
 Access pgAdmin at:
 http://localhost:5050
 
