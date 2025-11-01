@@ -98,6 +98,90 @@ WHERE staatus = 'aktiivne'
 Save this as silver_mtr_clean.sql inside models/silver/
 
 # Gold Layer – Analytical Model (dbt)
+Create this file in Data-engineering-project/ and paste:
+```bash
+FROM python:3.11-slim
+RUN apt-get update && apt-get install -y build-essential git curl
+RUN pip install dbt-core dbt-clickhouse
+WORKDIR /dbt
+ENTRYPOINT ["dbt"]
+```
+2. dbt_project.yml
+Create this file in Data-engineering-project/ and paste:
+```bash
+name: "data_engineering_project"
+version: "1.0"
+profile: "clickhouse_profile"
+model-paths: ["models"]
+target-path: "target"
+clean-targets: ["target"]
+models:
+  data_engineering_project:
+    silver:
+      +materialized: table
+```
+3. silver_mtr_clean.sql
+Place this file in: models/silver/silver_mtr_clean.sql
+```bash
+SELECT
+    registrikood,
+    lower(tegevusala) AS tegevusala,
+    alguskuupaev,
+    loppkuupaev,
+    staatus,
+    allikas
+FROM {{ ref('bronze_mtr_raw') }}
+WHERE staatus = 'aktiivne'
+```
+Schema.yml
+Place this file in: models/silver/schema.yml
+```bash
+version: 2
+
+models:
+  - name: silver_mtr_clean
+    description: "Cleaned MTR data with only active records"
+    columns:
+      - name: registrikood
+        tests:
+          - not_null
+          - unique
+      - name: tegevusala
+        description: "Standardized activity name"
+      - name: alguskuupaev
+        tests:
+          - not_null
+```
+profiles.yml
+Create this file in: C:\Users\user\.dbt\profiles.yml
+```bash
+clickhouse_profile:
+  target: dev
+  outputs:
+    dev:
+      type: clickhouse
+      schema: default
+      host: localhost
+      port: 8123
+      user: airflow_user
+      password: airflow_pass
+      secure: false
+      verify: false
+      database: default
+```
+Build and Run Docker
+Open PowerShell/Terminal in Data-engineering-project and run:
+´docker build -t my-dbt-clickhouse .´
+
+```bash
+docker run -it --rm `
+  -v ${PWD}:/dbt `
+  -v C:\Users\lamps\.dbt:/root/.dbt `
+  --workdir /dbt `
+  --entrypoint bash `
+  my-dbt-clickhouse
+```
+Once you are in you should see :
 
 In the gold layer, build your dimensional model:
 1 fact model (e.g. fact_mtr_activity)
