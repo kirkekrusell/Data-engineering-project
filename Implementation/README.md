@@ -11,7 +11,7 @@ docker-compose up -d
 | airflow-db   | airflow            | airflow      | 5432  |
 | prices-db    | prices_user        | prices_pass  | 5433  |
 | pgAdmin      | admin@example.com  | admin        | 5050  |
-| Clickhouse   | default            | clickhouse   | 8123  |
+| Clickhouse   | airflow_user       | airflow_pass | 8123  |
 
 Access pgAdmin at:
 http://localhost:5050
@@ -181,9 +181,48 @@ docker run -it --rm `
   --entrypoint bash `
   my-dbt-clickhouse
 ```
-Once you are in you should see :
+Once you are in you should see something like this: root@cbe5417dfda7:/dbt#
+Run `dbt debug`
+Now lets run silver_mtr_clean
+`dbt run --select silver_mtr_clean`
+Now test if everything is working
+`dbt test`
 
-In the gold layer, build your dimensional model:
+# Cleaning data from register
+# See ei tööta
+
+run `python clean_csv.py`
+copy file to container `docker cp "data/ettevotjad_clean.csv" clickhouse:/tmp/ettevotjad_clean.csv`
+log into container `docker exec -it clickhouse bash`
+load data `clickhouse-client --query="INSERT INTO raw_company_data FORMAT CSVWithNames SETTINGS format_csv_delimiter=';'" < /tmp/ettevotjad_clean.csv`
+check `clickhouse-client --query="SELECT COUNT(*) FROM raw_company_data"`
+
+
+```bash
+CREATE TABLE raw_company_data (
+    nimi String,
+    ariregistri_kood String,
+    ettevotja_oiguslik_vorm String,
+    ettevotja_oigusliku_vormi_alaliik String,
+    kmkr_nr String,
+    ettevotja_staatus String,
+    ettevotja_staatus_tekstina String,
+    ettevotja_esmakande_kpv Date,
+    ettevotja_aadress String,
+    asukoht_ettevotja_aadressis String,
+    asukoha_ehak_kood String,
+    asukoha_ehak_tekstina String,
+    indeks_ettevotja_aadressis String,
+    ads_adr_id String,
+    ads_ads_oid String,
+    ads_normaliseeritud_taisaadress String,
+    teabesysteemi_link String
+) ENGINE = MergeTree
+ORDER BY ariregistri_kood;
+```
+
+# Seda veel ei ole
+#In the gold layer, build your dimensional model:
 1 fact model (e.g. fact_mtr_activity)
 3 dimension models (e.g. dim_company, dim_activity, dim_status)
 1 test (e.g. unique or not null)
