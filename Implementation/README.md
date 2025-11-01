@@ -230,5 +230,5 @@ ORDER BY ariregistri_kood;
 Use ref() to define dependencies between models
 
 # Orchestration – Airflow + dbt
+[Ingest CSV] → [Load to ClickHouse] → [dbt run] → [run dbt test]
 
-Integrate dbt into your Airflow DAG using BashOperator:
