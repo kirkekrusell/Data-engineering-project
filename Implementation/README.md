@@ -37,19 +37,22 @@ First time it does not automatically detect the dag, you need to run airflow ini
 
 This DAG reads the modified MTR file (`mtr_test_2.csv`), checks for NAs in the "Registrikood" column, removes the found rows with NAs and creates a new file version. The dag runs once a week at midnight on Sunday morning.
 
-## Data Storage (ClickHouse)  
+## 2. Data Storage (ClickHouse)  
 
-`docker exec -it airflow-webserver bash`
-`pip install clickhouse-driver`
+```bash 
+docker exec -it airflow-webserver bash
+pip install clickhouse-driver
+exit
 
-do the same for
-`docker exec -it airflow-scheduler bash`
-
-`docker restart airflow-webserver airflow-scheduler`
+docker exec -it airflow-scheduler bash
+pip install clickhouse-driver
+exit
+```
 # Bronze level
 
 In CLickHouse Query create table bronze_mtr_raw where we are adding new data
-`create_table_query = """
+
+```bash 
 CREATE TABLE IF NOT EXISTS bronze_mtr_raw (
     registrikood String,
     tegevusala String,
@@ -59,29 +62,29 @@ CREATE TABLE IF NOT EXISTS bronze_mtr_raw (
     allikas String
 ) ENGINE = MergeTree()
 ORDER BY registrikood;
-"""
-`
+```
 
 The DAG (`load_to_clickhouse.py`) is located in the `implementation/` folder. When setting up Airflow, you need to copy this file into the Airflow DAGs directory:
 
-`cp implementation/load_to_clickhouse.py airflow/dags/`
+```cp implementation/load_to_clickhouse.py airflow/dags/```
 
-Run DAGs in Airflow
-
-If they are succesful then you can check 
+Run the DAG in Airflow. Once successful, verify in ClickHouse:
 
 `docker exec -it clickhouse clickhouse-client`
 
-If you see :) then you can print SHOW tables
-`SHOW TABLES;
+Example queries:
+```bash
+SHOW TABLES;
 SELECT * FROM bronze_mtr_raw LIMIT 10;
-DESCRIBE TABLE bronze_mtr_raw;`
+DESCRIBE TABLE bronze_mtr_raw;
+```
+# 3. Transformation (dbt)
+# Silver Layer – Cleaned Data (dbt)
 
-# Silver level
-
-Create the Silver Model
+Create a dbt model to clean and filter the raw data:
 
 This model will clean and filter your raw data from the Bronze layer.
+```bash
 SELECT
     registrikood,
     lower(tegevusala) AS tegevusala,
@@ -91,4 +94,18 @@ SELECT
     allikas
 FROM {{ ref('bronze_mtr_raw') }}
 WHERE staatus = 'aktiivne'
+```
+Save this as silver_mtr_clean.sql inside models/silver/
 
+# Gold Layer – Analytical Model (dbt)
+
+In the gold layer, build your dimensional model:
+1 fact model (e.g. fact_mtr_activity)
+3 dimension models (e.g. dim_company, dim_activity, dim_status)
+1 test (e.g. unique or not null)
+1 documentation file (.yml)
+Use ref() to define dependencies between models
+
+# Orchestration – Airflow + dbt
+
+Integrate dbt into your Airflow DAG using BashOperator:
