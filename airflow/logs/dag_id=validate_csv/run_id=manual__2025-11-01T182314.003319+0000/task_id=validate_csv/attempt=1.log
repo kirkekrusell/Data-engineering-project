@@ -1,0 +1,22 @@
+[2025-11-01T18:23:21.231+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: validate_csv.validate_csv manual__2025-11-01T18:23:14.003319+00:00 [queued]>
+[2025-11-01T18:23:21.278+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: validate_csv.validate_csv manual__2025-11-01T18:23:14.003319+00:00 [queued]>
+[2025-11-01T18:23:21.280+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 1
+[2025-11-01T18:23:21.361+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): validate_csv> on 2025-11-01 18:23:14.003319+00:00
+[2025-11-01T18:23:21.422+0000] {standard_task_runner.py:60} INFO - Started process 194 to run task
+[2025-11-01T18:23:21.507+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'validate_csv', 'validate_csv', 'manual__2025-11-01T18:23:14.003319+00:00', '--job-id', '37', '--raw', '--subdir', 'DAGS_FOLDER/validate.py', '--cfg-path', '/tmp/tmpjovk99tb']
+[2025-11-01T18:23:21.525+0000] {standard_task_runner.py:88} INFO - Job 37: Subtask validate_csv
+[2025-11-01T18:23:23.051+0000] {task_command.py:423} INFO - Running <TaskInstance: validate_csv.validate_csv manual__2025-11-01T18:23:14.003319+00:00 [running]> on host 5fa557a7832a
+[2025-11-01T18:23:23.792+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='validate_csv' AIRFLOW_CTX_TASK_ID='validate_csv' AIRFLOW_CTX_EXECUTION_DATE='2025-11-01T18:23:14.003319+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-11-01T18:23:14.003319+00:00'
+[2025-11-01T18:23:33.629+0000] {logging_mixin.py:188} INFO - 496
+[2025-11-01T18:23:33.748+0000] {logging_mixin.py:188} INFO -                                              Number  ... Arhiveerimise aeg,,,,
+1   Tagatise kehtivuse alguskuupäev: 2025-10-28,,,,  ...                  None
+4   Tagatise kehtivuse alguskuupäev: 2025-10-17,,,,  ...                  None
+26            Tagatise kehtivuse alguskuupäev: ,,,,  ...                  None
+29  Tagatise kehtivuse alguskuupäev: 2025-10-07,,,,  ...                  None
+67  Tagatise kehtivuse alguskuupäev: 2025-09-29,,,,  ...                  None
+
+[5 rows x 9 columns]
+[2025-11-01T18:23:34.220+0000] {python.py:201} INFO - Done. Returned value was: None
+[2025-11-01T18:23:34.299+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=validate_csv, task_id=validate_csv, execution_date=20251101T182314, start_date=20251101T182321, end_date=20251101T182334
+[2025-11-01T18:23:34.429+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2025-11-01T18:23:34.534+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

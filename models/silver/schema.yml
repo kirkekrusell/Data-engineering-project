@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: silver_mtr_clean
+    description: "Cleaned MTR data with only active records"
+    columns:
+      - name: registrikood
+        tests:
+          - not_null
+          - unique
+      - name: tegevusala
+        description: "Standardized activity name"
+      - name: alguskuupaev
+        tests:
+          - not_null

@@ -1,0 +1,36 @@
+name: "data_engineering_project"
+version: "1.0"
+profile: "clickhouse_profile"
+
+model-paths: ["models"]
+target-path: "target"
+clean-targets: ["target"]
+
+models:
+  data_engineering_project:
+    bronze:
+      +materialized: table
+    silver:
+      +materialized: table
+
+seeds:
+  data_engineering_project:
+    ettevotjad_clean:
+      column_types:
+        nimi: String
+        ariregistri_kood: String
+        ettevotja_oiguslik_vorm: String
+        ettevotja_oigusliku_vormi_alaliik: String
+        kmkr_nr: String
+        ettevotja_staatus: String
+        ettevotja_staatus_tekstina: String
+        ettevotja_esmakande_kpv: String
+        ettevotja_aadress: String
+        asukoht_ettevotja_aadressis: String
+        asukoha_ehak_kood: String
+        asukoha_ehak_tekstina: String
+        indeks_ettevotja_aadressis: String
+        ads_adr_id: String
+        ads_ads_oid: String
+        ads_normaliseeritud_taisaadress: String
+        teabesysteemi_link: String

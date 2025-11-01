@@ -1,0 +1,13 @@
+[2025-11-01T18:08:47.478+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: load_csv_to_clickhouse.load_csv_to_clickhouse manual__2025-11-01T18:08:44.176157+00:00 [queued]>
+[2025-11-01T18:08:47.505+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: load_csv_to_clickhouse.load_csv_to_clickhouse manual__2025-11-01T18:08:44.176157+00:00 [queued]>
+[2025-11-01T18:08:47.506+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 1
+[2025-11-01T18:08:47.549+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): load_csv_to_clickhouse> on 2025-11-01 18:08:44.176157+00:00
+[2025-11-01T18:08:47.604+0000] {standard_task_runner.py:60} INFO - Started process 196 to run task
+[2025-11-01T18:08:47.611+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'load_csv_to_clickhouse', 'load_csv_to_clickhouse', 'manual__2025-11-01T18:08:44.176157+00:00', '--job-id', '34', '--raw', '--subdir', 'DAGS_FOLDER/load_to_clickhouse.py', '--cfg-path', '/tmp/tmp7xos9e0n']
+[2025-11-01T18:08:47.626+0000] {standard_task_runner.py:88} INFO - Job 34: Subtask load_csv_to_clickhouse
+[2025-11-01T18:08:47.841+0000] {task_command.py:423} INFO - Running <TaskInstance: load_csv_to_clickhouse.load_csv_to_clickhouse manual__2025-11-01T18:08:44.176157+00:00 [running]> on host 5fa557a7832a
+[2025-11-01T18:08:50.053+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='load_csv_to_clickhouse' AIRFLOW_CTX_TASK_ID='load_csv_to_clickhouse' AIRFLOW_CTX_EXECUTION_DATE='2025-11-01T18:08:44.176157+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-11-01T18:08:44.176157+00:00'
+[2025-11-01T18:08:52.963+0000] {python.py:201} INFO - Done. Returned value was: None
+[2025-11-01T18:08:55.206+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=load_csv_to_clickhouse, task_id=load_csv_to_clickhouse, execution_date=20251101T180844, start_date=20251101T180847, end_date=20251101T180855
+[2025-11-01T18:08:57.437+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2025-11-01T18:09:00.182+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
