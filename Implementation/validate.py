@@ -31,7 +31,7 @@ def validate_csv(data = "data/mtr_test_2.csv"):
 
 with DAG(
     dag_id="validate_csv",
-    start_date=days_ago,
+    start_date=days_ago(1),
     schedule_interval="0 0 * * 0",  # once a week at midnight on Sunday morning
     catchup=False,
     max_active_runs=1
@@ -42,3 +42,4 @@ with DAG(
         python_callable=validate_csv,
         provide_context=True
     )
+
