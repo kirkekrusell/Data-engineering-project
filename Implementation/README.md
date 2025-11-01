@@ -38,6 +38,14 @@ First time it does not automatically detect the dag, you need to run airflow ini
 This DAG reads the modified MTR file (`mtr_test_2.csv`), checks for NAs in the "Registrikood" column, removes the found rows with NAs and creates a new file version. The dag runs once a week at midnight on Sunday morning.
 
 ## Data Storage (ClickHouse)  
+
+`docker exec -it airflow-webserver bash`
+`pip install clickhouse-driver`
+
+do the same for
+`docker exec -it airflow-scheduler bash`
+
+`docker restart airflow-webserver airflow-scheduler`
 # Bronze level
 
 In CLickHouse Query create table bronze_mtr_raw where we are adding new data
