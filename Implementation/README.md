@@ -49,7 +49,7 @@ do the same for
 # Bronze level
 
 In CLickHouse Query create table bronze_mtr_raw where we are adding new data
-create_table_query = """
+`create_table_query = """
 CREATE TABLE IF NOT EXISTS bronze_mtr_raw (
     registrikood String,
     tegevusala String,
@@ -60,10 +60,22 @@ CREATE TABLE IF NOT EXISTS bronze_mtr_raw (
 ) ENGINE = MergeTree()
 ORDER BY registrikood;
 """
+`
 
 The DAG (`load_to_clickhouse.py`) is located in the `implementation/` folder. When setting up Airflow, you need to copy this file into the Airflow DAGs directory:
 
 `cp implementation/load_to_clickhouse.py airflow/dags/`
+
+Run DAGs in Airflow
+
+If they are succesful then you can check 
+
+`docker exec -it clickhouse clickhouse-client`
+
+If you see :) then you can print SHOW tables
+`SHOW TABLES;
+SELECT * FROM bronze_mtr_raw LIMIT 10;
+DESCRIBE TABLE bronze_mtr_raw;`
 
 # Silver level
 
