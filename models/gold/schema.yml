@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: fact_activity_event
+    description: "Fact table for activity events"
+    columns:
+      - name: event_id
+        tests: [unique, not_null]
+      - name: company_id
+        tests: [not_null]
+      - name: activity_type_id
+        tests: [not_null]
+      - name: status
+        tests: [not_null]
+      - name: duration_days
+        description: "Duration in days"
+      - name: risk_level
+        description: "Risk classification"
+
+  - name: dim_company
+    description: "Company dimension with SCD Type 2"
+    columns:
+      - name: company_id
+        tests: [unique, not_null]
+      - name: valid_from
+        tests: [not_null]
+      - name: valid_to
+        tests: [not_null]
+
+  - name: dim_date
+    description: "Date dimension for calendar analysis"
+    columns:
+      - name: date_id
+        tests: [unique, not_null]
+
+  - name: dim_activity_type
+    description: "Activity type dimension with risk classification"
+    columns:
+      - name: activity_type_id
+        tests: [unique, not_null]
+
+  - name: dim_status
+    description: "Status dimension"
+    columns:
+      - name: status_code
+        tests: [unique, not_null]
+
