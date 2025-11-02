@@ -66,6 +66,7 @@ ORDER BY registry_code;
 Validates the MTR file by removing rows with missing registry codes. The DAG (`validate.py`) is located in the `implementation/` folder. When setting up Airflow, you need to copy this file into the Airflow DAGs directory:
 ```bash
 cp implementation/validate.py airflow/dags/
+docker exec -it airflow-webserver bash
 airflow db init
 ```
 ### DAG overview
@@ -73,6 +74,7 @@ This DAG reads the modified MTR file (`mtr_test_2.csv`), checks for NAs in the "
 
 ## DAG: load_to_clickhouse.py
 Install ClickHouse driver in Airflow containers before loading dag:
+
 ```bash 
 docker exec -it airflow-webserver bash
 pip install clickhouse-driver
