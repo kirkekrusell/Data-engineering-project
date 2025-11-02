@@ -307,7 +307,7 @@ GROUP BY ariregistri_kood, nimi, kmkr_nr, ettevotja_esmakande_kpv,
          ettevotja_oiguslik_vorm, ettevotja_oigusliku_vormi_alaliik
 ```
 ## Dimension – dim_date.sql (SCD Type 0)
-location: `models/gold/dim_date.sql`
+Location: `models/gold/dim_date.sql`
 ```bash
 SELECT
     toYYYYMMDD(date) AS date_id,
