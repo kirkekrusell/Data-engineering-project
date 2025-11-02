@@ -37,7 +37,7 @@ This script:
     selects only the required 8 columns:
         name, registry_code, vat_code, initial_registration_date, normalized_address, postal_code, legal_form, legal_form_subtype.
 
-## Load into ClickHouse
+# Load into ClickHouse
 ```bash
 docker cp "data/ettevotjad_clean.csv" clickhouse:/tmp/ettevotjad_clean.csv
 docker exec -it clickhouse bash
@@ -123,13 +123,14 @@ Loads cleaned CSV data into ClickHouse.
 cp implementation/load_to_clickhouse.py airflow/dags/
 ```
 ### DAG overview
-Bronze – Raw CSV data from Airflow to ClickHouse
-Silver – dbt cleaned tables (status=active)
-Gold – dbt star schema (fact + 3 dimension)
+Bronze – Raw CSV data from Airflow to ClickHouse. 
+
+Silver – dbt cleaned tables (status=active).
+
+Gold – dbt star schema (fact + 3 dimension).
 
 # Bronze Layer – Raw MTR Data
-In CLickHouse Query create table bronze_mtr_raw where we are adding new data
-For MTR
+In ClickHouse query create table bronze_mtr_raw where we are adding new data for MTR.
 ```bash 
 CREATE TABLE IF NOT EXISTS bronze_mtr_raw (
     registrikood String,
@@ -141,7 +142,7 @@ CREATE TABLE IF NOT EXISTS bronze_mtr_raw (
 ) ENGINE = MergeTree()
 ORDER BY registrikood;
 ```
-You created a raw table bronze_mtr_raw in ClickHouse to store activity data from the MTR file. This table includes: registry_code, activity_area, start_date, end_date, status, source
+You created a raw table bronze_mtr_raw in ClickHouse to store activity data from the MTR file. This table includes: registry_code, activity_area, start_date, end_date, status, source.
 
 The DAG (`load_to_clickhouse.py`) is located in the `implementation/` folder. When setting up Airflow, you need to copy this file into the Airflow DAGs directory:
 
@@ -172,7 +173,7 @@ WORKDIR /dbt
 ENTRYPOINT ["dbt"]
 ```
 ## dbt Project Configuration - dbt_project.yml
-Create this file in Data-engineering-project/ and paste:
+Create this file in `Data-engineering-project/` and paste:
 ```bash
 name: "data_engineering_project"
 version: "1.0"
@@ -189,10 +190,10 @@ models:
       +materialized: table
       +tags: ["gold"]
 ```
-Save to C:\Users\user\.dbt\profiles.yml
+Save to `C:\Users\user\.dbt\profiles.yml`.
 
 ## profiles.yml
-Create this file in: C:\Users\user\.dbt\profiles.yml
+Create this file in `C:\Users\user\.dbt\profiles.yml`:
 ```bash
 clickhouse_profile:
   target: dev
@@ -210,9 +211,9 @@ clickhouse_profile:
 ```
 
 # Build and run dbt container:
-Open PowerShell/Terminal in Data-engineering-project and run:
+Open PowerShell/Terminal in `Data-engineering-project` and run:
 `docker build -t my-dbt-clickhouse`
-NB in this one you should change youruser to your personal username
+NB! In this one you should change youruser to your personal username.
 ```bash
 docker run -it --rm `
   -v ${PWD}:/dbt `
@@ -244,7 +245,7 @@ SELECT
 FROM {{ ref('bronze_mtr_raw') }}
 WHERE staatus = 'aktiivne'
 ```
-Save to: models/silver/silver_mtr_clean.sql
+Save to: `models/silver/silver_mtr_clean.sql`
 
 ## Schema: models/silver/schema.yml
 ```bash
@@ -267,7 +268,7 @@ models:
 # Gold Layer
 This folder contains the gold models for the project, representing the final curated layer of the analytics warehouse. These models are designed for business intelligence, reporting, and downstream analysis.
 ## Fact table - fact_activity_event.sql
-Location models/gold/fact_activity_event.sql
+Location `models/gold/fact_activity_event.sql`
 ```bash
 SELECT
     concat(registrikood, '_', alguskuupaev) AS event_id,
@@ -286,7 +287,7 @@ LEFT JOIN {{ ref('dim_activity_type') }} a ON lower(m.tegevusala) = lower(a.acti
 LEFT JOIN {{ ref('dim_status') }} s ON m.staatus = s.status_code
 ```
 ## Dimension – dim_company.sql (SCD Type 2)
-Location: models/gold/dim_company.sql
+Location: `models/gold/dim_company.sql`
 ```bash
 SELECT
     ariregistri_kood AS registry_code,
@@ -306,7 +307,7 @@ GROUP BY ariregistri_kood, nimi, kmkr_nr, ettevotja_esmakande_kpv,
          ettevotja_oiguslik_vorm, ettevotja_oigusliku_vormi_alaliik
 ```
 ## Dimension – dim_date.sql (SCD Type 0)
-location: models/gold/dim_date.sql
+location: `models/gold/dim_date.sql`
 ```bash
 SELECT
     toYYYYMMDD(date) AS date_id,
@@ -325,7 +326,7 @@ FROM (
 ```
 
 ## Dimension – dim_activity_type.sql (SCD Type 0)
-Location: models/gold/dim_activity_type.sql
+Location: `models/gold/dim_activity_type.sql`
 ```bash
 SELECT
     rowNumberInAllBlocks() AS activity_type_id,
