@@ -400,7 +400,7 @@ version: 2
 
 sources:
   - name: default
-    tables:
+    tables: 
       - name: raw_company_data
 ```
 
