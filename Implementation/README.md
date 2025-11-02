@@ -163,7 +163,7 @@ DESCRIBE TABLE bronze_mtr_raw;
 # dbt Transformations
 
 ## Dockerfile for dbt - Dockerfile
-Create this file "Dockerfile" in notebook and change it so it does not have a file type in Data-engineering-project/ and paste:
+Create this file "Dockerfile" in notebook and change it so it does not have a file type in `Data-engineering-project/` and paste:
 
 ```bash
 FROM python:3.11-slim
