@@ -35,7 +35,7 @@ This script:
     fixes date formats,
     removes problematic characters (quotes, commas, semicolons),
     selects only the required 8 columns:
-        name, registry_code, vat_code, initial_registration_date, normalized_address, postal_code, legal_form, legal_form_subtype
+        name, registry_code, vat_code, initial_registration_date, normalized_address, postal_code, legal_form, legal_form_subtype.
 
 ## Load into ClickHouse
 ```bash
