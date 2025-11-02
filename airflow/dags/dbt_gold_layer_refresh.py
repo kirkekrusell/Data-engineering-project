@@ -23,3 +23,5 @@ with DAG('dbt_gold_layer_refresh',
     )
 
     dbt_run_gold >> dbt_test_gold
+
+
