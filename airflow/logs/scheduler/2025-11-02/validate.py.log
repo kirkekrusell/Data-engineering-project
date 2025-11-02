@@ -2466,3 +2466,17 @@ Please take a look at these docs to improve your DAG import time:
 [2025-11-02T19:43:15.282+0000] {logging_mixin.py:188} INFO - [2025-11-02T19:43:15.281+0000] {dag.py:3036} INFO - Sync 1 DAGs
 [2025-11-02T19:43:15.343+0000] {logging_mixin.py:188} INFO - [2025-11-02T19:43:15.342+0000] {dag.py:3823} INFO - Setting next_dagrun for validate_csv to 2025-11-02 00:00:00+00:00, run_after=2025-11-09 00:00:00+00:00
 [2025-11-02T19:43:15.392+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/validate.py took 10.808 seconds
+[2025-11-02T19:48:02.597+0000] {processor.py:161} INFO - Started process (PID=4444) to work on /opt/airflow/dags/validate.py
+[2025-11-02T19:48:02.600+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/validate.py for tasks to queue
+[2025-11-02T19:48:02.602+0000] {logging_mixin.py:188} INFO - [2025-11-02T19:48:02.601+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/validate.py
+[2025-11-02T19:48:03.682+0000] {processor.py:840} INFO - DAG(s) 'validate_csv' retrieved from /opt/airflow/dags/validate.py
+[2025-11-02T19:48:03.758+0000] {logging_mixin.py:188} INFO - [2025-11-02T19:48:03.757+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-02T19:48:03.825+0000] {logging_mixin.py:188} INFO - [2025-11-02T19:48:03.825+0000] {dag.py:3823} INFO - Setting next_dagrun for validate_csv to 2025-11-02 00:00:00+00:00, run_after=2025-11-09 00:00:00+00:00
+[2025-11-02T19:48:03.903+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/validate.py took 1.316 seconds
+[2025-11-02T19:48:34.415+0000] {processor.py:161} INFO - Started process (PID=4456) to work on /opt/airflow/dags/validate.py
+[2025-11-02T19:48:34.418+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/validate.py for tasks to queue
+[2025-11-02T19:48:34.421+0000] {logging_mixin.py:188} INFO - [2025-11-02T19:48:34.420+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/validate.py
+[2025-11-02T19:48:35.283+0000] {processor.py:840} INFO - DAG(s) 'validate_csv' retrieved from /opt/airflow/dags/validate.py
+[2025-11-02T19:48:35.339+0000] {logging_mixin.py:188} INFO - [2025-11-02T19:48:35.338+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-02T19:48:35.395+0000] {logging_mixin.py:188} INFO - [2025-11-02T19:48:35.394+0000] {dag.py:3823} INFO - Setting next_dagrun for validate_csv to 2025-11-02 00:00:00+00:00, run_after=2025-11-09 00:00:00+00:00
+[2025-11-02T19:48:35.451+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/validate.py took 1.117 seconds

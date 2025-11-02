@@ -2401,3 +2401,17 @@ Please take a look at these docs to improve your DAG import time:
 [2025-11-02T19:43:15.880+0000] {logging_mixin.py:188} INFO - [2025-11-02T19:43:15.879+0000] {dag.py:3036} INFO - Sync 1 DAGs
 [2025-11-02T19:43:15.917+0000] {logging_mixin.py:188} INFO - [2025-11-02T19:43:15.917+0000] {dag.py:3823} INFO - Setting next_dagrun for load_csv_to_clickhouse to 2025-11-02 00:00:00+00:00, run_after=2025-11-09 00:00:00+00:00
 [2025-11-02T19:43:15.963+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/load_to_clickhouse.py took 10.043 seconds
+[2025-11-02T19:48:06.619+0000] {processor.py:161} INFO - Started process (PID=4450) to work on /opt/airflow/dags/load_to_clickhouse.py
+[2025-11-02T19:48:06.622+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/load_to_clickhouse.py for tasks to queue
+[2025-11-02T19:48:06.624+0000] {logging_mixin.py:188} INFO - [2025-11-02T19:48:06.623+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/load_to_clickhouse.py
+[2025-11-02T19:48:07.890+0000] {processor.py:840} INFO - DAG(s) 'load_csv_to_clickhouse' retrieved from /opt/airflow/dags/load_to_clickhouse.py
+[2025-11-02T19:48:07.944+0000] {logging_mixin.py:188} INFO - [2025-11-02T19:48:07.943+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-02T19:48:07.995+0000] {logging_mixin.py:188} INFO - [2025-11-02T19:48:07.994+0000] {dag.py:3823} INFO - Setting next_dagrun for load_csv_to_clickhouse to 2025-11-02 00:00:00+00:00, run_after=2025-11-09 00:00:00+00:00
+[2025-11-02T19:48:08.045+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/load_to_clickhouse.py took 1.434 seconds
+[2025-11-02T19:48:38.510+0000] {processor.py:161} INFO - Started process (PID=4462) to work on /opt/airflow/dags/load_to_clickhouse.py
+[2025-11-02T19:48:38.512+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/load_to_clickhouse.py for tasks to queue
+[2025-11-02T19:48:38.515+0000] {logging_mixin.py:188} INFO - [2025-11-02T19:48:38.514+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/load_to_clickhouse.py
+[2025-11-02T19:48:39.828+0000] {processor.py:840} INFO - DAG(s) 'load_csv_to_clickhouse' retrieved from /opt/airflow/dags/load_to_clickhouse.py
+[2025-11-02T19:48:39.927+0000] {logging_mixin.py:188} INFO - [2025-11-02T19:48:39.927+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-02T19:48:40.013+0000] {logging_mixin.py:188} INFO - [2025-11-02T19:48:40.012+0000] {dag.py:3823} INFO - Setting next_dagrun for load_csv_to_clickhouse to 2025-11-02 00:00:00+00:00, run_after=2025-11-09 00:00:00+00:00
+[2025-11-02T19:48:40.061+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/load_to_clickhouse.py took 1.559 seconds
