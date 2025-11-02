@@ -262,6 +262,7 @@ models:
 ```
 
 # Gold Layer
+This folder contains the gold models for the project, representing the final curated layer of the analytics warehouse. These models are designed for business intelligence, reporting, and downstream analysis.
 ## Fact table - fact_activity_event.sql
 Location models/gold/fact_activity_event.sql
 ```bash
@@ -296,7 +297,10 @@ SELECT
     ettevotja_oigusliku_vormi_alaliik AS legal_form_subtype,
     toDate('2025-01-01') AS valid_from,
     toDate('9999-12-31') AS valid_to
-FROM {{ ref('raw_company_data') }}
+FROM {{ source('default', 'raw_company_data') }}
+GROUP BY ariregistri_kood, nimi, kmkr_nr, ettevotja_esmakande_kpv,
+         ads_normaliseeritud_taisaadress, indeks_ettevotja_aadressis,
+         ettevotja_oiguslik_vorm, ettevotja_oigusliku_vormi_alaliik
 ```
 ## Dimension – dim_date.sql (SCD Type 0)
 location: models/gold/dim_date.sql
@@ -304,9 +308,9 @@ location: models/gold/dim_date.sql
 SELECT
     toYYYYMMDD(date) AS date_id,
     date,
-    formatDateTime(date, '%A') AS day_of_week,
-    formatDateTime(date, '%B') AS month,
-    toQuarter(date) AS quarter,
+    toDayOfWeek(date) AS day_of_week,         -- 1 = Monday, 7 = Sunday
+    toMonth(date) AS month_number,            -- 1–12
+    toQuarter(date) AS quarter,               -- 1–4
     NOT toDayOfWeek(date) IN (6, 7) AS is_weekday,
     toWeek(date) AS week_number
 FROM (
@@ -332,6 +336,15 @@ SELECT
 FROM {{ ref('silver_mtr_clean') }}
 GROUP BY tegevusala
 ```
+## Dimension – dim_status.sql
+```bash
+SELECT
+    staatus AS status_code,
+    staatus AS status_label
+FROM {{ ref('silver_mtr_clean') }}
+GROUP BY staatus
+```
+
 ## Schema - models/gold/schema.yml
 ```bash
 version: 2
@@ -341,18 +354,13 @@ models:
     description: "Fact table for activity events"
     columns:
       - name: event_id
-        tests:
-          - unique
-          - not_null
+        tests: [unique, not_null]
       - name: company_id
-        tests:
-          - not_null
+        tests: [not_null]
       - name: activity_type_id
-        tests:
-          - not_null
+        tests: [not_null]
       - name: status
-        tests:
-          - not_null
+        tests: [not_null]
       - name: duration_days
         description: "Duration in days"
       - name: risk_level
@@ -362,32 +370,40 @@ models:
     description: "Company dimension with SCD Type 2"
     columns:
       - name: company_id
-        tests:
-          - unique
-          - not_null
+        tests: [unique, not_null]
       - name: valid_from
-        tests:
-          - not_null
+        tests: [not_null]
       - name: valid_to
-        tests:
-          - not_null
+        tests: [not_null]
 
   - name: dim_date
     description: "Date dimension for calendar analysis"
     columns:
       - name: date_id
-        tests:
-          - unique
-          - not_null
+        tests: [unique, not_null]
 
   - name: dim_activity_type
     description: "Activity type dimension with risk classification"
     columns:
       - name: activity_type_id
-        tests:
-          - unique
-          - not_null
+        tests: [unique, not_null]
+
+  - name: dim_status
+    description: "Status dimension"
+    columns:
+      - name: status_code
+        tests: [unique, not_null]
 ```
+## raw_sources.yml
+```bash
+version: 2
+
+sources:
+  - name: default
+    tables:
+      - name: raw_company_data
+```
+
 Add them to models/gold/ and then run
 ```bash
 dbt run --select gold
