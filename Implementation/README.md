@@ -161,9 +161,20 @@ Verify in ClickHouse:
 
 ```bash
 SHOW TABLES;
-SELECT * FROM bronze_mtr_raw LIMIT 10;
+```
+
+<img width="629" height="274" alt="image" src="https://github.com/user-attachments/assets/65f8b580-e8a9-4f75-bc98-3b1046cb826c" />
+
+```bash
 DESCRIBE TABLE bronze_mtr_raw;
 ```
+
+<img width="1239" height="354" alt="image" src="https://github.com/user-attachments/assets/bf780106-880a-4672-b729-4ccc824ee331" />
+
+```bash
+SELECT * FROM bronze_mtr_raw LIMIT 5;
+```
+
 <img width="1279" height="353" alt="image" src="https://github.com/user-attachments/assets/cc5bae6f-9e1b-4ab9-8992-53cb85e292c6" />
 
 # dbt Transformations
