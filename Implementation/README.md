@@ -158,9 +158,12 @@ SELECT * FROM bronze_mtr_raw LIMIT 10;
 DESCRIBE TABLE bronze_mtr_raw;
 ```
 <img width="1279" height="353" alt="image" src="https://github.com/user-attachments/assets/cc5bae6f-9e1b-4ab9-8992-53cb85e292c6" />
+
 # dbt Transformations
+
 ## Dockerfile for dbt - Dockerfile
 Create this file "Dockerfile" in notebook and change it so it does not have a file type in Data-engineering-project/ and paste:
+
 ```bash
 FROM python:3.11-slim
 RUN apt-get update && apt-get install -y build-essential git curl
