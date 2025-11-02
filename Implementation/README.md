@@ -12,7 +12,6 @@ docker-compose up -d
 | Component    | Username           | Password     | Port  |
 |--------------|--------------------|--------------|-------|
 | airflow-db   | airflow            | airflow      | 5432  |
-| prices-db    | prices_user        | prices_pass  | 5433  |
 | pgAdmin      | admin@example.com  | admin        | 5050  |
 | Clickhouse   | airflow_user       | airflow_pass | 8123  |
 
