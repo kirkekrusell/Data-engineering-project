@@ -2,7 +2,7 @@
 # Overview
 This project analyzes Estonian business registry data and activity records to build a multi-layered data pipeline using Airflow, ClickHouse, and dbt. The pipeline classifies business activities by risk level and transforms raw data into clean, structured dimensional models for analytical use.
 
-# 1. Environment Setup
+# Environment Setup
 ```shell
 docker-compose up -d
 ```
