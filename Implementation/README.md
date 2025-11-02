@@ -61,6 +61,40 @@ CREATE TABLE IF NOT EXISTS raw_company_data (
 ) ENGINE = MergeTree
 ORDER BY registry_code;
 ```
+You can also do it in terminal
+```bash
+docker exec -it clickhouse bash
+```
+Start the ClickHouse SQL client
+```bash
+clickhouse-client
+```
+Now you’ll see the ClickHouse prompt: `clickhouse :)`
+
+Paste the SQL to create the table
+```bash
+CREATE TABLE IF NOT EXISTS bronze_mtr_raw (
+    registrikood String,
+    tegevusala String,
+    alguskuupaev Date,
+    loppkuupaev Date,
+    staatus String,
+    allikas String
+) ENGINE = MergeTree
+ORDER BY registrikood;
+```
+Press Enter — you should see:
+```bash
+CREATE TABLE bronze_mtr_raw
+Ok.
+```
+Verify the table was created
+```bash
+SHOW TABLES;
+SELECT * FROM bronze_mtr_raw LIMIT 5;
+DESCRIBE TABLE bronze_mtr_raw;
+```
+
 # Airflow DAGs
 ## DAG: validate.py - MTR file quality check
 Validates the MTR file by removing rows with missing registry codes. The DAG (`validate.py`) is located in the `implementation/` folder. When setting up Airflow, you need to copy this file into the Airflow DAGs directory:
