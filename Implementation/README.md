@@ -49,7 +49,7 @@ clickhouse-client --query="SELECT COUNT(*) FROM raw_company_data"
 
 Table Definition
 ```bash
-CREATE TABLE raw_company_data (
+CREATE TABLE IF NOT EXISTS raw_company_data (
     name String,
     registry_code String,
     vat_code String,
