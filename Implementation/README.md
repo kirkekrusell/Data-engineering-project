@@ -60,6 +60,12 @@ CREATE TABLE IF NOT EXISTS raw_company_data (
 ) ENGINE = MergeTree
 ORDER BY registry_code;
 ```
+Verify the table was created
+```bash
+SELECT COUNT(*) FROM raw_company_data;
+```
+<img width="660" height="286" alt="image" src="https://github.com/user-attachments/assets/3211ab4d-fe8a-42b5-a043-8e0444cbd0aa" />
+
 You can also do it in terminal
 ```bash
 docker exec -it clickhouse bash
@@ -413,7 +419,19 @@ Add them to `models/gold/` and then run
 dbt run --select gold
 dbt test --select gold
 ```
+Tests on gold model
+
+<img width="1199" height="936" alt="image" src="https://github.com/user-attachments/assets/67019707-10ab-45e5-b4df-323818bc2d8b" />
+
+Fixed the code and then did  more tests to fix errors  
+
+<img width="1253" height="419" alt="image" src="https://github.com/user-attachments/assets/55d5ccb1-de3f-45b2-af62-a0b96183b509" />
+
+
 # Orchestration – Airflow + dbt
+
+<img width="1358" height="394" alt="574231515_1592587255237912_6295377046359119092_n" src="https://github.com/user-attachments/assets/249ba090-1789-4010-b680-542f1502aa3c" />
+
 
 This project integrates Airflow with dbt to automate the full analytics pipeline from the raw data ingestion to the final gold layer in ClickHouse.
 
