@@ -415,5 +415,47 @@ dbt test --select gold
 ```
 # Orchestration – Airflow + dbt
 
+This project integrates Airflow with dbt to automate the full analytics pipeline from the raw data ingestion to the final gold layer in ClickHouse.
 
+## Gold Layer DAG
+We have created an Airflow DAG named dbt_gold_layer_refresh to orchestrate the dbt transformations for the gold layer. The DAG performs the following steps:
 
+The task dbt_run_gold executes the dbt command to build all gold-layer models defined in the dbt project:
+```bash
+dbt run --select gold
+```
+This ensures that the fact and dimension tables for analytical use are fully refreshed.
+
+### Test dbt Gold Models
+The task dbt_test_gold runs the dbt tests on the gold-layer models:
+```bash
+dbt test --select gold
+```
+
+### DAG Schedule and Configuration
+DAG ID: dbt_gold_layer_refresh
+Schedule: Every Sunday at midnight (0 0 * * 0)
+Start Date: November 1, 2025
+Retries: 1 retry in case of failure
+Catchup: Disabled (catchup=False) to prevent backfilling
+
+### Workflow Diagram dbt_run_gold --> dbt_test_gold
+dbt_run_gold: Builds all gold models (fact + dimension tables).
+
+dbt_test_gold: Validates the gold models to ensure data quality.
+
+### How to Run
+Make sure the Airflow scheduler and webserver are running:
+```bash
+docker-compose up -d airflow-webserver airflow-scheduler
+```
+Place the DAG file in the Airflow DAGs folder: 
+```bash
+airflow/dags/dbt_gold_layer_refresh.py
+```
+Access the Airflow UI at 
+```bash
+http://localhost:8180
+```
+Trigger the DAG manually or wait for the scheduled execution.
+Monitor logs to ensure dbt models run successfully and tests pass.
