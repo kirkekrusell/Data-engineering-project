@@ -1,5 +1,8 @@
-# 1. Initialize the Environment
+# Data Engineering Project – Business Activity Analysis
+# Overview
+This project analyzes Estonian business registry data and activity records to build a multi-layered data pipeline using Airflow, ClickHouse, and dbt. The pipeline classifies business activities by risk level and transforms raw data into clean, structured dimensional models for analytical use.
 
+# 1. Environment Setup
 ```shell
 docker-compose up -d
 ```
@@ -22,23 +25,54 @@ http://localhost:8180
 Access Clickhouse at:
 http://localhost:8123
 
-# DAG - MTR file quality check
+#  Cleaning Business Registry Data (CSV)
+## Python Script
+Run the cleaning script:
+```bash
+python clean_csv.py
+```
+This script:
+    Reads the raw business registry CSV
+    Fixes date formats
+    Removes problematic characters (quotes, commas, semicolons)
+    Selects only the required 8 columns:
+        name, registry_code, vat_code, initial_registration_date, normalized_address, postal_code, legal_form, legal_form_subtype
 
-The DAG (`validate.py`) is located in the `implementation/` folder. When setting up Airflow, you need to copy this file into the Airflow DAGs directory:
+## Load into ClickHouse
+```bash
+docker cp "data/ettevotjad_clean.csv" clickhouse:/tmp/ettevotjad_clean.csv
+docker exec -it clickhouse bash
+clickhouse-client --query="TRUNCATE TABLE raw_company_data"
+clickhouse-client --query="INSERT INTO raw_company_data FORMAT CSVWithNames SETTINGS format_csv_delimiter=';'" < /tmp/ettevotjad_clean.csv
+clickhouse-client --query="SELECT COUNT(*) FROM raw_company_data"
+```
 
-`cp implementation/validate.py airflow/dags/`
-
-First time it does not automatically detect the dag, you need to run airflow init.
-
-`airflow db init`
-
-
-## DAG overview
-
+Table Definition
+```bash
+CREATE TABLE raw_company_data (
+    name String,
+    registry_code String,
+    vat_code String,
+    initial_registration_date Date,
+    normalized_address String,
+    postal_code String,
+    legal_form String,
+    legal_form_subtype String
+) ENGINE = MergeTree
+ORDER BY registry_code;
+```
+# Airflow DAGs
+## DAG: validate.py - MTR file quality check
+Validates the MTR file by removing rows with missing registry codes. The DAG (`validate.py`) is located in the `implementation/` folder. When setting up Airflow, you need to copy this file into the Airflow DAGs directory:
+```bash
+cp implementation/validate.py airflow/dags/
+airflow db init
+```
+### DAG overview
 This DAG reads the modified MTR file (`mtr_test_2.csv`), checks for NAs in the "Registrikood" column, removes the found rows with NAs and creates a new file version. The dag runs once a week at midnight on Sunday morning.
 
-## 2. Data Storage (ClickHouse)  
-Install ClickHouse driver in Airflow containers:
+## DAG: load_to_clickhouse.py
+Install ClickHouse driver in Airflow containers before loading dag:
 ```bash 
 docker exec -it airflow-webserver bash
 pip install clickhouse-driver
@@ -48,10 +82,15 @@ docker exec -it airflow-scheduler bash
 pip install clickhouse-driver
 exit
 ```
-# Bronze level
 
+Loads cleaned CSV data into ClickHouse.
+```bash
+cp implementation/load_to_clickhouse.py airflow/dags/
+```
+### DAG overview
+
+# Bronze Layer – Raw MTR Data
 In CLickHouse Query create table bronze_mtr_raw where we are adding new data
-
 For MTR
 ```bash 
 CREATE TABLE IF NOT EXISTS bronze_mtr_raw (
@@ -64,39 +103,7 @@ CREATE TABLE IF NOT EXISTS bronze_mtr_raw (
 ) ENGINE = MergeTree()
 ORDER BY registrikood;
 ```
-#  Cleaning Register Data (CSV)
-
-```bash
-python clean_csv.py
-docker cp "data/ettevotjad_clean.csv" clickhouse:/tmp/ettevotjad_clean.csv
-docker exec -it clickhouse bash
-clickhouse-client --query="TRUNCATE TABLE raw_company_data"
-clickhouse-client --query="INSERT INTO raw_company_data FORMAT CSVWithNames SETTINGS format_csv_delimiter=';'" < /tmp/ettevotjad_clean.csv
-clickhouse-client --query="SELECT COUNT(*) FROM raw_company_data"
-```
-
-```bash
-CREATE TABLE raw_company_data (
-    nimi String,
-    ariregistri_kood String,
-    ettevotja_oiguslik_vorm String,
-    ettevotja_oigusliku_vormi_alaliik String,
-    kmkr_nr String,
-    ettevotja_staatus String,
-    ettevotja_staatus_tekstina String,
-    ettevotja_esmakande_kpv Date,
-    ettevotja_aadress String,
-    asukoht_ettevotja_aadressis String,
-    asukoha_ehak_kood String,
-    asukoha_ehak_tekstina String,
-    indeks_ettevotja_aadressis String,
-    ads_adr_id String,
-    ads_ads_oid String,
-    ads_normaliseeritud_taisaadress String,
-    teabesysteemi_link String
-) ENGINE = MergeTree
-ORDER BY ariregistri_kood;
-```
+You created a raw table bronze_mtr_raw in ClickHouse to store activity data from the MTR file. This table includes: registry_code, activity_area, start_date, end_date, status, source
 
 The DAG (`load_to_clickhouse.py`) is located in the `implementation/` folder. When setting up Airflow, you need to copy this file into the Airflow DAGs directory:
 
@@ -112,8 +119,9 @@ SHOW TABLES;
 SELECT * FROM bronze_mtr_raw LIMIT 10;
 DESCRIBE TABLE bronze_mtr_raw;
 ```
-# 3. Transformation (dbt)
-Dockerfile: Create this file "Dockerfile" in notebook and change it so it does not have a file type in Data-engineering-project/ and paste:
+# dbt Transformations
+## Dockerfile for dbt - Dockerfile
+Create this file "Dockerfile" in notebook and change it so it does not have a file type in Data-engineering-project/ and paste:
 ```bash
 FROM python:3.11-slim
 RUN apt-get update && apt-get install -y build-essential git curl
@@ -121,7 +129,7 @@ RUN pip install dbt-core dbt-clickhouse
 WORKDIR /dbt
 ENTRYPOINT ["dbt"]
 ```
-dbt_project.yml
+## dbt Project Configuration - dbt_project.yml
 Create this file in Data-engineering-project/ and paste:
 ```bash
 name: "data_engineering_project"
@@ -141,7 +149,7 @@ models:
 ```
 Save to C:\Users\user\.dbt\profiles.yml
 
-profiles.yml
+## profiles.yml
 Create this file in: C:\Users\user\.dbt\profiles.yml
 ```bash
 clickhouse_profile:
@@ -159,7 +167,7 @@ clickhouse_profile:
       database: default
 ```
 
-# Build and Run dbt container:
+# Build and run dbt container:
 Open PowerShell/Terminal in Data-engineering-project and run:
 `docker build -t my-dbt-clickhouse`
 
@@ -179,12 +187,10 @@ dbt run --select silver_mtr_clean
 dbt test
 ```
 
-# Silver Layer
-Model: silver_mtr_clean.sql
-
-Create a dbt model to clean and filter the raw data:
-
+# Silver Layer – Cleaned MTR Data
+## Model: silver_mtr_clean.sql
 This model will clean and filter your raw data from the Bronze layer.
+
 ```bash
 SELECT
     registrikood,
@@ -198,7 +204,7 @@ WHERE staatus = 'aktiivne'
 ```
 Save to: models/silver/silver_mtr_clean.sql
 
-Schema: models/silver/schema.yml
+## Schema: models/silver/schema.yml
 ```bash
 version: 2
 models:
@@ -236,7 +242,7 @@ LEFT JOIN {{ ref('dim_company') }} c ON m.registrikood = c.registry_code
 LEFT JOIN {{ ref('dim_activity_type') }} a ON lower(m.tegevusala) = lower(a.activity_area)
 LEFT JOIN {{ ref('dim_status') }} s ON m.staatus = s.status_code
 ```
-Dimension – dim_company.sql (SCD Type 2)
+## Dimension – dim_company.sql (SCD Type 2)
 Location: models/gold/dim_company.sql
 ```bash
 SELECT
@@ -253,7 +259,7 @@ SELECT
     toDate('9999-12-31') AS valid_to
 FROM {{ ref('raw_company_data') }}
 ```
-Dimension – dim_date.sql (SCD Type 0)
+## Dimension – dim_date.sql (SCD Type 0)
 location: models/gold/dim_date.sql
 ```bash
 SELECT
@@ -272,7 +278,7 @@ FROM (
 )
 ```
 
-Dimension – dim_activity_type.sql (SCD Type 0)
+## Dimension – dim_activity_type.sql (SCD Type 0)
 Location: models/gold/dim_activity_type.sql
 ```bash
 SELECT
@@ -287,7 +293,7 @@ SELECT
 FROM {{ ref('silver_mtr_clean') }}
 GROUP BY tegevusala
 ```
-Schema - models/gold/schema.yml
+## Schema - models/gold/schema.yml
 ```bash
 version: 2
 
@@ -349,5 +355,6 @@ dbt run --select gold
 dbt test --select gold
 ```
 # Orchestration – Airflow + dbt
+
 
 
