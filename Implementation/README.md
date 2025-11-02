@@ -31,10 +31,10 @@ Run the cleaning script:
 python clean_csv.py
 ```
 This script:
-    Reads the raw business registry CSV
-    Fixes date formats
-    Removes problematic characters (quotes, commas, semicolons)
-    Selects only the required 8 columns:
+    reads the raw business registry CSV,
+    fixes date formats,
+    removes problematic characters (quotes, commas, semicolons),
+    selects only the required 8 columns:
         name, registry_code, vat_code, initial_registration_date, normalized_address, postal_code, legal_form, legal_form_subtype
 
 ## Load into ClickHouse
