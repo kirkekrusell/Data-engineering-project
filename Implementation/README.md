@@ -134,6 +134,10 @@ models:
   data_engineering_project:
     silver:
       +materialized: table
+      +tags: ["silver"]
+    gold:
+      +materialized: table
+      +tags: ["gold"]
 ```
 Save to C:\Users\user\.dbt\profiles.yml
 
@@ -345,5 +349,5 @@ dbt run --select gold
 dbt test --select gold
 ```
 # Orchestration – Airflow + dbt
-[Ingest CSV] → [Load to ClickHouse] → [dbt run] → [run dbt test]
+
 
