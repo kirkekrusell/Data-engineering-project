@@ -124,6 +124,9 @@ Loads cleaned CSV data into ClickHouse.
 cp implementation/load_to_clickhouse.py airflow/dags/
 ```
 ### DAG overview
+Bronze – Raw CSV data from Airflow to ClickHouse
+Silver – dbt cleaned tables (status=active)
+Gold – dbt star schema (fact + 3 dimension)
 
 # Bronze Layer – Raw MTR Data
 In CLickHouse Query create table bronze_mtr_raw where we are adding new data
