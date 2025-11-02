@@ -206,11 +206,11 @@ clickhouse_profile:
 # Build and run dbt container:
 Open PowerShell/Terminal in Data-engineering-project and run:
 `docker build -t my-dbt-clickhouse`
-
+NB in thisone you should change youruser to your personal username
 ```bash
 docker run -it --rm `
   -v ${PWD}:/dbt `
-  -v C:\Users\lamps\.dbt:/root/.dbt `
+  -v C:\Users\youruser\.dbt:/root/.dbt `
   --workdir /dbt `
   --entrypoint bash `
   my-dbt-clickhouse
