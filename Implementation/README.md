@@ -98,7 +98,7 @@ WHERE staatus = 'aktiivne'
 Save this as silver_mtr_clean.sql inside models/silver/
 
 # Gold Layer – Analytical Model (dbt)
-Create this file in Data-engineering-project/ and paste:
+Create this file "Dockerfile" in notebook and change it so it does not have a file type in Data-engineering-project/ and paste:
 ```bash
 FROM python:3.11-slim
 RUN apt-get update && apt-get install -y build-essential git curl
