@@ -408,7 +408,7 @@ sources:
       - name: raw_company_data
 ```
 
-Add them to models/gold/ and then run
+Add them to `models/gold/` and then run
 ```bash
 dbt run --select gold
 dbt test --select gold
