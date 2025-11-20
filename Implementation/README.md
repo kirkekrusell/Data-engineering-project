@@ -511,4 +511,15 @@ docker exec -it airflow-webserver bash
 python -c "import pyiceberg, minio; print('ok')"
 exit
 ```
+## Environment Setup
+
+Start services:
+```bash
+docker compose up --build -d
+```
+Create MinIO bucket:
+```bash
+Login: http://localhost:9001
+Bucket: practice-bucket
+```
 Monitor logs to ensure dbt models run successfully and tests pass.
