@@ -124,8 +124,8 @@ services:
       MINIO_ROOT_PASSWORD: minio_pass
     command: server /data --console-address ":9001"
     ports:
-      - "9000:9000"   # S3 API
-      - "9001:9001"   # Web console
+      - "9002:9000"   # S3 API
+      - "9003:9001"   # Web console
     volumes:
       - minio_data:/data
     restart: always
