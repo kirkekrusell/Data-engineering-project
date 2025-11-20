@@ -487,4 +487,28 @@ Access the Airflow UI at
 http://localhost:8180
 ```
 Trigger the DAG manually or wait for the scheduled execution.
+
+# Project 3
+
+## Apache Iceberg
+
+Install dependencies in Airflow containers:
+Airflow webserver:
+```bash
+docker exec -it airflow-webserver bash
+pip install pyiceberg minio
+exit
+```
+Airflow scheduler:
+```bash
+docker exec -it airflow-scheduler bash
+pip install pyiceberg minio
+exit
+```
+Re-run bash and check PyIceberg:
+```bash
+docker exec -it airflow-webserver bash
+python -c "import pyiceberg, minio; print('ok')"
+exit
+```
 Monitor logs to ensure dbt models run successfully and tests pass.
