@@ -34,7 +34,7 @@ services:
 
   # --- Airflow Webserver ---
   airflow-webserver:
-    image: apache/airflow:2.8.1
+    image: airflow-custom
     container_name: airflow-webserver
     command: webserver
     environment:
@@ -58,7 +58,7 @@ services:
 
   # --- Airflow Scheduler ---
   airflow-scheduler:
-    image: apache/airflow:2.8.1
+    image: airflow-custom
     container_name: airflow-scheduler
     command: scheduler
     environment:
