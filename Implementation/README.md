@@ -518,8 +518,9 @@ Start services:
 docker compose up --build -d
 ```
 Create MinIO bucket:
-```bash
-Login: http://localhost:9001
-Bucket: practice-bucket
+Login: http://localhost:9003
+User: minio_user
+Password: minio_pass
+Bucket: warehouse
+
 ```
-Monitor logs to ensure dbt models run successfully and tests pass.
