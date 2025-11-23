@@ -85,7 +85,5 @@ print(f"✅ Table '{namespace}.{table_name}' created")
 # ------------------------------
 # Append data and commit
 # ------------------------------
-append = table.new_append()       # loo uus append transaction
-append.add(arrow_table)           # lisa Arrow tabel
-append.commit()                   # commit -> kirjutab metadata ja data failid MinIO-sse
-print(f"✅ Data committed to '{namespace}.{table_name}'")
+table.append(arrow_table)
+print(f"✅ Data appended to '{namespace}.{table_name}'")
