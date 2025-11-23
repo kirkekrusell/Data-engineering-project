@@ -50,14 +50,15 @@ except NamespaceAlreadyExistsError:
 # ------------------------------
 # Select only bronze columns
 # ------------------------------
+
 arrow_reader = conn.sql("""
 SELECT
-    registrikood,
-    tegevusala,
-    alguskuupaev,
-    loppkuupaev,
-    staatus,
-    allikas
+    Registrikood AS registrikood,
+    Tegevusala AS tegevusala,
+    "Kehtivuse algus" AS alguskuupaev,
+    "Kehtivuse lõpp" AS loppkuupaev,
+    Kehtiv AS staatus,
+    Lisainfo AS allikas
 FROM raw_mtr_data
 """).arrow()
 
