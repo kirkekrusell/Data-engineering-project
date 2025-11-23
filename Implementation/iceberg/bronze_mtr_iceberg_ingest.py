@@ -26,7 +26,7 @@ SET s3_use_ssl=false;
 csv_path = "/opt/airflow/repo/Implementation/data/mtr_test_2.csv"
 conn.sql(f"""
 CREATE OR REPLACE TABLE raw_mtr_data AS
-SELECT * FROM read_csv_auto('{csv_path}', delim=';')
+SELECT * FROM read_csv_auto('{csv_path}', delim=';', encoding='UTF-16')
 """)
 
 print("✅ DuckDB table 'raw_mtr_data' created from CSV")
