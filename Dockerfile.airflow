@@ -1,12 +1,13 @@
-FROM apache/airflow:2.8.1
+# Kasuta Python 3.11 varianti, et DuckDB wheel sobiks
+FROM apache/airflow:2.8.1-python3.11
 
 USER root
 RUN apt-get update && apt-get install -y build-essential git curl
 USER airflow
 
-RUN pip install --no-cache-dir \
-    duckdb \
-    pyarrow \
-    pyiceberg \
-    pandas \
-    clickhouse-driver
+# Installi paketid kahes kihis, et cache töötaks
+# Esimeses kihis sagedamini muutuvad (duckdb, pyarrow)
+RUN pip install --no-cache-dir duckdb pyarrow
+
+# Teises kihis harvemini muutuvad (pyiceberg, pandas, clickhouse-driver)
+RUN pip install --no-cache-dir pyiceberg pandas clickhouse-driver
