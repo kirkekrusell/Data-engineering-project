@@ -5,3 +5,6 @@ catalogs:
     s3.access-key-id: minio_user
     s3.secret-access-key: minio_pass
     s3.path-style-access: true
+    warehouse: s3://warehouse
+
+
