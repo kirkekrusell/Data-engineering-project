@@ -147,7 +147,7 @@ services:
     image: tabulario/iceberg-rest:latest
     container_name: iceberg-rest
     environment:
-      CATALOG__TYPE: hadoop
+      CATALOG__CATALOG_IMPL: org.apache.iceberg.hadoop.HadoopCatalog
       CATALOG__WAREHOUSE: s3://warehouse
       CATALOG__S3_ENDPOINT: http://minio:9000
       CATALOG__S3_ACCESS_KEY_ID: minio_user
