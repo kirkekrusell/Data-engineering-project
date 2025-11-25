@@ -1,7 +1,5 @@
 # Project 1
 
-## Contents
-
 * [Project overviw](#project-overview)
     * [Stakeholders](#stakeholders)
     * [Key Metrics (KPIs)](#key-metrics-kpis)
