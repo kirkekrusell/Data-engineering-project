@@ -12,7 +12,7 @@
 * [Bronze Layer – Raw MTR Data](#bronze-layer---raw-mtr-data)
     * [dbt Transformations](#dbt-transformations)
         * [Dockerfile for dbt - Dockerfile](#dockerfile-for-dbt---dockerfile)
-        * [dbt Project Configuration - dbt_project.yml)(#dbt-project-configuration---dbt_projectyml)
+        * [dbt Project Configuration - dbt_project.yml](#dbt-project-configuration---dbt_projectyml)
         * [profiles.yml](#profilesyml)
         * [Build and run dbt container](#build-and-run-dbt-container)
 * [Silver Layer – Cleaned MTR Data](#silver-layer---cleaned-mtr-data)
