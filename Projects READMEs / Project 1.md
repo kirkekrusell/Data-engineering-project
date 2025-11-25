@@ -1,25 +1,38 @@
-# Project Overview
+# Project 1
+
+## Contents
+
+* [Project overviw](#project-overview)
+    * [Stakeholders](#stakeholders)
+    * [Key Metrics (KPIs)](#key-metrics-(kpis))
+    * [Business Questions](#business-questions)
+    * [Datasets](#datasets)
+    * [Creating tables](#creating-tables)
+    * [Demo queries](#demo-queries)
+
+
+## Project overview
 This project aims to analyze Estonian companies’ economic activities by combining basic company data from the Business Register with economic activity areas from the MTR (Main Economic Activity Registry). The goal is to identify sector trends, regional differences, and company activity patterns across Estonia.
 
-Stakeholders   
+### Stakeholders   
 1. Data Analysts
 2. Policymakers
 3. Investors
 4. Banks and Financial Institutions
 5. Public and Media
 
-Key Metrics (KPIs)
+### Key Metrics (KPIs)
 1. Number of activity notices per company
 2. Share of companies with expired activity notices
 
-Business Questions
+### Business Questions
 1. How many companies have multiple activity notices and operate in multiple sectors?
 2. How many companies registered their economic activity areas in the same year they were established?
 3. How many companies have terminated at least one economic activity notice?
 4. Average duration of an activity notice before expiration
 5. Percentage of companies with all activity notices expired
 
-Datasets
+### Datasets
 1. Basic Company Data (Business Register)
 359,816 rows, 14 columns
 Key columns: Name, Register code, Legal form, Status, First entry date, Address, Location codes
@@ -29,6 +42,8 @@ Key columns: Name, Register code, Legal form, Status, First entry date, Address,
 Key columns: Number, Entrepreneur name, Register code, Start & End date, Valid, Field of activity, Type of area of activity and Additional_info 
 
 You can create fact and dimension tables with this SQL script
+
+### Creating tables
 
 ```sql
 -- =====================================================
@@ -107,7 +122,7 @@ CREATE TABLE dim_activity (
     additional_info TEXT
 );
 ```
-Demo Queries
+### Demo Queries
 1. How many companies have multiple activity notices and operate in multiple sectors?  
 
 ```sql
