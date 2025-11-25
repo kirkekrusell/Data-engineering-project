@@ -30,7 +30,7 @@
     * [Gold Layer DAG](#gold-layer-dag)
     * [Test dbt Gold Models](#test-dbt-gold-models)
     * [DAG Schedule and Configuration](#dag-schedule-and-configuration)
-        * [Workflow Diagram dbt_run_gold --> dbt_test_gold](#workflow-diagram-dbt-run-gold--dbt_test_gold)
+        * [Workflow Diagram dbt_run_gold --> dbt_test_gold](#workflow-diagram-dbt-run-gold---dbt_test_gold)
         * [How to Run](#how-to-run)
 
 
