@@ -147,12 +147,13 @@ services:
     image: tabulario/iceberg-rest:latest
     container_name: iceberg-rest
     volumes:
-      - ./Implementation/iceberg/catalog.properties:/etc/iceberg/catalog.properties
+      - ./Implementation/iceberg:/etc/iceberg
     ports:
       - "8181:8181"
     depends_on:
       - minio
     restart: always
+
 
 
 
