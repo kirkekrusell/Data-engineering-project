@@ -4,7 +4,7 @@
 
 * [Project overviw](#project-overview)
     * [Stakeholders](#stakeholders)
-    * [Key Metrics (KPIs)](#key-metrics-(kpis))
+    * [Key Metrics (KPIs)](#key-metrics-kpis)
     * [Business Questions](#business-questions)
     * [Datasets](#datasets)
     * [Creating tables](#creating-tables)
