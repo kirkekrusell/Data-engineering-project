@@ -1,1 +1,72 @@
-# Project 3 README
+# Project 3
+
+## Apache Iceberg
+
+## Environment Setup
+
+Start services:
+```bash
+docker compose up --build -d
+```
+Create MinIO bucket:
+Login: http://localhost:9003
+User: minio_user
+Password: minio_pass
+Bucket: warehouse
+
+```
+Install dependencies in Airflow containers:
+Airflow webserver:
+```bash
+docker exec -it airflow-webserver bash
+pip install --upgrade pyiceberg "pyarrow>=15.0.0"
+exit
+```
+Airflow scheduler:
+```bash
+docker exec -it airflow-scheduler bash
+pip install --upgrade pyiceberg "pyarrow>=15.0.0"
+exit
+```
+Re-run bash and check PyIceberg:
+```bash
+docker exec -it airflow-webserver bash
+python -c "import pyiceberg, minio; print('ok')"
+exit
+```
+Quick import check
+```bash
+docker exec -it airflow-webserver bash
+python -c "import pyiceberg, pyarrow; print(pyiceberg.__version__, pyarrow.__version__)"
+exit
+```
+Ingest CSV into Iceberg (bronze layer)
+```bash
+docker exec -it airflow-webserver bash
+python /opt/airflow/repo/Implementation/iceberg/bronze_mtr_iceberg_ingest.py
+```
+You should see:
+
+    ✅ DuckDB table created
+
+    ✅ Namespace bronze ensured
+
+    ✅ Table bronze.mtr_iceberg created
+
+    ✅ Data appended
+<img width="1312" height="136" alt="image" src="https://github.com/user-attachments/assets/928a6781-526c-4d0a-88de-befb736a1100" />
+
+Verify: PyIceberg and ClickHouse
+Verify with PyIceberg
+```bash
+docker exec -it airflow-webserver bash
+python -c "
+from pyiceberg.catalog import load_catalog
+catalog = load_catalog('rest')
+table = catalog.load_table('bronze.mtr_iceberg')
+print(table.schema())
+print(table.scan().to_arrow().to_pandas().head())
+"
+exit
+```
+<img width="1271" height="503" alt="image" src="https://github.com/user-attachments/assets/f63ef6a1-20ce-42df-bc35-403690864250" />
