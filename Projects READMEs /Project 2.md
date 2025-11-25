@@ -1,8 +1,43 @@
-# Data Engineering Project – Business Activity Analysis
-# Overview
+# Project 2 – Business Activity Analysis
+
+* [Project Overview](#project-overview)
+* [Environment Setup](#environment-setup)
+    * [Credentials](#credentials)
+* [Cleaning Business Registry Data (CSV)](#cleaning-business-registry-data-csv)
+    * [Python Script](#python-script)
+* [Load into ClickHouse](#load-into-clickhouse)
+* [Airflow DAGs](#airflow-dags)
+    * [DAG: validate.py - MTR file quality check](#dag-validate-py-mtr-file-quality-check)
+    * [DAG: load_to_clickhouse.py](#dag-load-to-clickhouse-py)
+* [Bronze Layer – Raw MTR Data](#bronze-layer-raw-mtr-data)
+    * [dbt Transformations](#dbt-transformations)
+        * [Dockerfile for dbt - Dockerfile](#dockerfile-for-dbt-dockerfile)
+        * [dbt Project Configuration - dbt_project.yml)(#dbt-project-configuration-dbt-project-yml)
+        * [profiles.yml](#profiles-yml)
+        * [Build and run dbt container](#build-and-run-dbt-container)
+* [Silver Layer – Cleaned MTR Data](#silver-layer-cleaned-mtr-data)
+    * [Model: silver_mtr_clean.sql](#model-silver-mtr-clean-sql)
+    * [Schema: models/silver/schema.yml](#schema-models-silver-schema-yml)
+* [Gold Layer](#gold-layer)
+    * [Fact table - fact_activity_event.sql](#fact-table-fact-activity-event-sql)
+    * [Dimension – dim_company.sql (SCD Type 2)](#dimension-dim-company-sql-scd-type-2)
+    * [Dimension – dim_date.sql (SCD Type 0)](#dimension-dim-date-sql-scd-type-0)
+    * [Dimension – dim_activity_type.sql (SCD Type 0)](#dimension-dim-activity-type-sql-scd-type-0)
+    * [Dimension – dim_status.sql](#dimension-dim-status-sql)
+    * [Schema - models/gold/schema.yml](#schema-models-gold-schema-yml)
+    * [raw_sources.yml](#raw-sources-yml)
+* [Orchestration – Airflow + dbt](#orchestration–airflow-dbt)
+    * [Gold Layer DAG](#gold-layer-dag)
+    * [Test dbt Gold Models](#test-dbt-gold-models)
+    * [DAG Schedule and Configuration](#dag-schedule-and-configuration)
+        * [Workflow Diagram dbt_run_gold --> dbt_test_gold](#workflow-diagram-dbt-run-gold-dbt-test-gold)
+        * [How to Run](#how-to-run)
+
+
+## Project Overview
 This project analyzes Estonian business registry data and activity records to build a multi-layered data pipeline using Airflow, ClickHouse, and dbt. The pipeline classifies business activities by risk level and transforms raw data into clean, structured dimensional models for analytical use.
 
-# Environment Setup
+## Environment Setup
 ```shell
 docker-compose up -d
 ```
@@ -24,8 +59,8 @@ http://localhost:8180
 Access Clickhouse at:
 http://localhost:8123
 
-#  Cleaning Business Registry Data (CSV)
-## Python Script
+##  Cleaning Business Registry Data (CSV)
+### Python Script
 Run the cleaning script:
 ```bash
 python clean_csv.py
@@ -37,7 +72,7 @@ This script:
     selects only the required 8 columns:
         name, registry_code, vat_code, initial_registration_date, normalized_address, postal_code, legal_form, legal_form_subtype.
 
-# Load into ClickHouse
+## Load into ClickHouse
 ```bash
 docker cp "data/ettevotjad_clean.csv" clickhouse:/tmp/ettevotjad_clean.csv
 docker exec -it clickhouse bash
@@ -100,18 +135,19 @@ SELECT * FROM bronze_mtr_raw LIMIT 5;
 DESCRIBE TABLE bronze_mtr_raw;
 ```
 
-# Airflow DAGs
-## DAG: validate.py - MTR file quality check
+## Airflow DAGs
+### DAG: validate.py - MTR file quality check
 Validates the MTR file by removing rows with missing registry codes. The DAG (`validate.py`) is located in the `implementation/` folder. When setting up Airflow, you need to copy this file into the Airflow DAGs directory:
 ```bash
 cp implementation/validate.py airflow/dags/
 docker exec -it airflow-webserver bash
 airflow db init
 ```
-### DAG overview
+
+Overview:
 This DAG reads the modified MTR file (`mtr_test_2.csv`), checks for NAs in the "Registrikood" column, removes the found rows with NAs and creates a new file version. The dag runs once a week at midnight on Sunday morning.
 
-## DAG: load_to_clickhouse.py
+### DAG: load_to_clickhouse.py
 Install ClickHouse driver in Airflow containers before loading dag:
 
 ```bash 
@@ -128,14 +164,13 @@ Loads cleaned CSV data into ClickHouse.
 ```bash
 cp implementation/load_to_clickhouse.py airflow/dags/
 ```
-### DAG overview
-Bronze – Raw CSV data from Airflow to ClickHouse. 
 
-Silver – dbt cleaned tables (status=active).
+Overview:
+- Bronze – Raw CSV data from Airflow to ClickHouse.
+- Silver – dbt cleaned tables (status=active).
+- Gold – dbt star schema (fact + 3 dimension).
 
-Gold – dbt star schema (fact + 3 dimension).
-
-# Bronze Layer – Raw MTR Data
+## Bronze Layer – Raw MTR Data
 In ClickHouse query create table bronze_mtr_raw where we are adding new data for MTR.
 ```bash 
 CREATE TABLE IF NOT EXISTS bronze_mtr_raw (
@@ -177,9 +212,9 @@ SELECT * FROM bronze_mtr_raw LIMIT 5;
 
 <img width="1279" height="353" alt="image" src="https://github.com/user-attachments/assets/cc5bae6f-9e1b-4ab9-8992-53cb85e292c6" />
 
-# dbt Transformations
+### dbt Transformations
 
-## Dockerfile for dbt - Dockerfile
+#### Dockerfile for dbt - Dockerfile
 Create this file "Dockerfile" in notebook and change it so it does not have a file type in `Data-engineering-project/` and paste:
 
 ```bash
@@ -189,7 +224,7 @@ RUN pip install dbt-core dbt-clickhouse
 WORKDIR /dbt
 ENTRYPOINT ["dbt"]
 ```
-## dbt Project Configuration - dbt_project.yml
+#### dbt Project Configuration - dbt_project.yml
 Create this file in `Data-engineering-project/` and paste:
 ```bash
 name: "data_engineering_project"
@@ -209,7 +244,7 @@ models:
 ```
 Save to `C:\Users\user\.dbt\profiles.yml`.
 
-## profiles.yml
+#### profiles.yml
 Create this file in `C:\Users\user\.dbt\profiles.yml`:
 ```bash
 clickhouse_profile:
@@ -227,7 +262,7 @@ clickhouse_profile:
       database: default
 ```
 
-# Build and run dbt container:
+### Build and run dbt container
 Open PowerShell/Terminal in `Data-engineering-project` and run:
 `docker build -t my-dbt-clickhouse`
 NB! In this one you should change youruser to your personal username.
@@ -247,8 +282,8 @@ dbt run --select silver_mtr_clean
 dbt test
 ```
 
-# Silver Layer – Cleaned MTR Data
-## Model: silver_mtr_clean.sql
+## Silver Layer – Cleaned MTR Data
+### Model: silver_mtr_clean.sql
 This model will clean and filter your raw data from the Bronze layer.
 
 ```bash
@@ -264,7 +299,7 @@ WHERE staatus = 'aktiivne'
 ```
 Save to: `models/silver/silver_mtr_clean.sql`
 
-## Schema: models/silver/schema.yml
+### Schema: models/silver/schema.yml
 ```bash
 version: 2
 models:
@@ -282,9 +317,9 @@ models:
           - not_null
 ```
 
-# Gold Layer
+## Gold Layer
 This folder contains the gold models for the project, representing the final curated layer of the analytics warehouse. These models are designed for business intelligence, reporting, and downstream analysis.
-## Fact table - fact_activity_event.sql
+### Fact table - fact_activity_event.sql
 Location `models/gold/fact_activity_event.sql`
 ```bash
 SELECT
@@ -303,7 +338,7 @@ LEFT JOIN {{ ref('dim_company') }} c ON m.registrikood = c.registry_code
 LEFT JOIN {{ ref('dim_activity_type') }} a ON lower(m.tegevusala) = lower(a.activity_area)
 LEFT JOIN {{ ref('dim_status') }} s ON m.staatus = s.status_code
 ```
-## Dimension – dim_company.sql (SCD Type 2)
+### Dimension – dim_company.sql (SCD Type 2)
 Location: `models/gold/dim_company.sql`
 ```bash
 SELECT
@@ -323,7 +358,7 @@ GROUP BY ariregistri_kood, nimi, kmkr_nr, ettevotja_esmakande_kpv,
          ads_normaliseeritud_taisaadress, indeks_ettevotja_aadressis,
          ettevotja_oiguslik_vorm, ettevotja_oigusliku_vormi_alaliik
 ```
-## Dimension – dim_date.sql (SCD Type 0)
+### Dimension – dim_date.sql (SCD Type 0)
 Location: `models/gold/dim_date.sql`
 ```bash
 SELECT
@@ -342,7 +377,7 @@ FROM (
 )
 ```
 
-## Dimension – dim_activity_type.sql (SCD Type 0)
+### Dimension – dim_activity_type.sql (SCD Type 0)
 Location: `models/gold/dim_activity_type.sql`
 ```bash
 SELECT
@@ -357,7 +392,7 @@ SELECT
 FROM {{ ref('silver_mtr_clean') }}
 GROUP BY tegevusala
 ```
-## Dimension – dim_status.sql
+### Dimension – dim_status.sql
 ```bash
 SELECT
     staatus AS status_code,
@@ -366,7 +401,7 @@ FROM {{ ref('silver_mtr_clean') }}
 GROUP BY staatus
 ```
 
-## Schema - models/gold/schema.yml
+### Schema - models/gold/schema.yml
 ```bash
 version: 2
 
@@ -415,7 +450,7 @@ models:
       - name: status_code
         tests: [unique, not_null]
 ```
-## raw_sources.yml
+### raw_sources.yml
 ```bash
 version: 2
 
@@ -439,14 +474,14 @@ Fixed the code and then did  more tests to fix errors
 <img width="1253" height="419" alt="image" src="https://github.com/user-attachments/assets/55d5ccb1-de3f-45b2-af62-a0b96183b509" />
 
 
-# Orchestration – Airflow + dbt
+## Orchestration – Airflow + dbt
 
 <img width="1358" height="394" alt="574231515_1592587255237912_6295377046359119092_n" src="https://github.com/user-attachments/assets/249ba090-1789-4010-b680-542f1502aa3c" />
 
 
 This project integrates Airflow with dbt to automate the full analytics pipeline from the raw data ingestion to the final gold layer in ClickHouse.
 
-## Gold Layer DAG
+### Gold Layer DAG
 We have created an Airflow DAG named dbt_gold_layer_refresh to orchestrate the dbt transformations for the gold layer. The DAG performs the following steps:
 
 The task dbt_run_gold executes the dbt command to build all gold-layer models defined in the dbt project:
@@ -468,12 +503,12 @@ Start Date: November 1, 2025
 Retries: 1 retry in case of failure
 Catchup: Disabled (catchup=False) to prevent backfilling
 
-### Workflow Diagram dbt_run_gold --> dbt_test_gold
+#### Workflow Diagram dbt_run_gold --> dbt_test_gold
 dbt_run_gold: Builds all gold models (fact + dimension tables).
 
 dbt_test_gold: Validates the gold models to ensure data quality.
 
-### How to Run
+#### How to Run
 Make sure the Airflow scheduler and webserver are running:
 ```bash
 docker-compose up -d airflow-webserver airflow-scheduler
