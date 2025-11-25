@@ -170,7 +170,7 @@ Overview:
 - Silver – dbt cleaned tables (status=active).
 - Gold – dbt star schema (fact + 3 dimension).
 
-## Bronze Layer – Raw MTR Data
+## Bronze Layer - Raw MTR Data
 In ClickHouse query create table bronze_mtr_raw where we are adding new data for MTR.
 ```bash 
 CREATE TABLE IF NOT EXISTS bronze_mtr_raw (
