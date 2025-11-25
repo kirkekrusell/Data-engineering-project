@@ -1,1 +1,3 @@
 clickhouse-driver
+pyarrow>=15.0.0
+pyiceberg>=0.14.0
