@@ -146,12 +146,13 @@ services:
   iceberg-rest:
     image: tabulario/iceberg-rest:latest
     container_name: iceberg-rest
-    volumes:
-      - ./Implementation/iceberg/catalog.properties:/opt/iceberg/catalog.properties
+    environment:
+      JAVA_TOOL_OPTIONS: "-Dcatalog-impl=org.apache.iceberg.hadoop.HadoopCatalog -Dwarehouse=s3://warehouse -Ds3.endpoint=http://minio:9000 -Ds3.access-key-id=minio_user -Ds3.secret-access-key=minio_pass -Ds3.path-style-access=true"
     ports:
       - "8181:8181"
     depends_on:
       - minio
     restart: always
+
 
 
