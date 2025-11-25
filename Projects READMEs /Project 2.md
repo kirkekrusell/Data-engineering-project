@@ -17,7 +17,7 @@
         * [Build and run dbt container](#build-and-run-dbt-container)
 * [Silver Layer – Cleaned MTR Data](#silver-layer---cleaned-mtr-data)
     * [Model: silver_mtr_clean.sql](#model-silver_mtr_cleansql)
-    * [Schema: models/silver/schema.yml](#schema-models-silver-schemayml)
+    * [Schema: models/silver/schema.yml](#schema:-models-silver-schemayml)
 * [Gold Layer](#gold-layer)
     * [Fact table - fact_activity_event.sql](#fact-table---fact_activity_eventsql)
     * [Dimension – dim_company.sql (SCD Type 2)](#dimension---dim_companysql-scd-type-2)
@@ -282,7 +282,7 @@ dbt run --select silver_mtr_clean
 dbt test
 ```
 
-## Silver Layer – Cleaned MTR Data
+## Silver Layer - Cleaned MTR Data
 ### Model: silver_mtr_clean.sql
 This model will clean and filter your raw data from the Bronze layer.
 
