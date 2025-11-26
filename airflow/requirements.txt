@@ -1,5 +1,4 @@
 clickhouse-driver
 pyarrow==15.0.2
-pyiceberg==0.14.0
 duckdb
 pandas
