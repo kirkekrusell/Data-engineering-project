@@ -20,7 +20,7 @@
     * [Schema: models/silver/schema.yml](#schema-modelssilverschemayml)
 * [Gold Layer](#gold-layer)
     * [Fact table - fact_activity_event.sql](#fact-table---fact_activity_eventsql)
-    * [Dimension – dim_company.sql (SCD Type 2)](#dimension---dim_companysql-scd-type-2)
+    * [Dimension – dim_company.sql (SCD Type 2)](#dimension--dim_companysql-scd-type-2)
     * [Dimension – dim_date.sql (SCD Type 0)](#dimension---dim_datesql-scd-type-0)
     * [Dimension – dim_activity_type.sql (SCD Type 0)](#dimension---dim_activity_typesql-scd-type-0)
     * [Dimension – dim_status.sql](#dimension---dim_statussql)
