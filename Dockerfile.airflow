@@ -5,5 +5,5 @@ RUN apt-get update && apt-get install -y build-essential git curl
 USER airflow
 
 RUN pip install --no-cache-dir duckdb pandas clickhouse-driver
-RUN pip install --no-cache-dir pyarrow==14.0.2 pyiceberg==0.10.0
+RUN pip install --no-cache-dir pyarrow==12.0.1 pyiceberg==0.10.0
 
