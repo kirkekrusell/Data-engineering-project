@@ -31,6 +31,9 @@ services:
       - airflow-db
 
   airflow-webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
     image: airflow-custom
     container_name: airflow-webserver
     command: webserver
@@ -59,6 +62,9 @@ services:
     restart: always
 
   airflow-scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
     image: airflow-custom
     container_name: airflow-scheduler
     command: scheduler
