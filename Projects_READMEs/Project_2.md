@@ -73,35 +73,8 @@ This script:
         name, registry_code, vat_code, initial_registration_date, normalized_address, postal_code, legal_form, legal_form_subtype.
 
 ## Load into ClickHouse
-```bash
-docker cp "data/ettevotjad_clean.csv" clickhouse:/tmp/ettevotjad_clean.csv
-docker exec -it clickhouse bash
-clickhouse-client --query="TRUNCATE TABLE raw_company_data"
-clickhouse-client --query="INSERT INTO raw_company_data FORMAT CSVWithNames SETTINGS format_csv_delimiter=';'" < /tmp/ettevotjad_clean.csv
-clickhouse-client --query="SELECT COUNT(*) FROM raw_company_data"
-```
 
-Table Definition
-```bash
-CREATE TABLE IF NOT EXISTS raw_company_data (
-    name String,
-    registry_code String,
-    vat_code String,
-    initial_registration_date Date,
-    normalized_address String,
-    postal_code String,
-    legal_form String,
-    legal_form_subtype String
-) ENGINE = MergeTree
-ORDER BY registry_code;
-```
-Verify the table was created
-```bash
-SELECT COUNT(*) FROM raw_company_data;
-```
-<img width="660" height="286" alt="image" src="https://github.com/user-attachments/assets/3211ab4d-fe8a-42b5-a043-8e0444cbd0aa" />
-
-You can also do it in terminal
+You can do it in terminal
 ```bash
 docker exec -it clickhouse bash
 ```
@@ -133,6 +106,35 @@ Verify the table was created
 SHOW TABLES;
 SELECT * FROM bronze_mtr_raw LIMIT 5;
 DESCRIBE TABLE bronze_mtr_raw;
+```
+
+Paste the SQL to create the table
+```bash
+CREATE TABLE IF NOT EXISTS raw_company_data (
+    name String,
+    registry_code String,
+    vat_code String,
+    initial_registration_date Date,
+    normalized_address String,
+    postal_code String,
+    legal_form String,
+    legal_form_subtype String
+) ENGINE = MergeTree
+ORDER BY registry_code;
+```
+Verify the table was created
+```bash
+SELECT COUNT(*) FROM raw_company_data;
+```
+<img width="660" height="286" alt="image" src="https://github.com/user-attachments/assets/3211ab4d-fe8a-42b5-a043-8e0444cbd0aa" />
+
+In Data-engineering-project folder in shell, paste the following commands:
+```bash
+docker cp "data/ettevotjad_clean.csv" clickhouse:/tmp/ettevotjad_clean.csv
+docker exec -it clickhouse bash
+clickhouse-client --query="TRUNCATE TABLE raw_company_data"
+clickhouse-client --query="INSERT INTO raw_company_data FORMAT CSVWithNames SETTINGS format_csv_delimiter=';'" < /tmp/ettevotjad_clean.csv
+clickhouse-client --query="SELECT COUNT(*) FROM raw_company_data"
 ```
 
 ## Airflow DAGs
