@@ -59,6 +59,7 @@ http://localhost:8180
 Access Clickhouse at:
 http://localhost:8123
 
+
 ##  Cleaning Business Registry Data (CSV)
 ### Python Script
 Run the cleaning script:
@@ -71,6 +72,7 @@ This script:
     removes problematic characters (quotes, commas, semicolons),
     selects only the required 8 columns:
         name, registry_code, vat_code, initial_registration_date, normalized_address, postal_code, legal_form, legal_form_subtype.
+
 
 ## Load into ClickHouse
 
@@ -127,6 +129,7 @@ Verify the table was created
 SELECT COUNT(*) FROM raw_company_data;
 ```
 <img width="660" height="286" alt="image" src="https://github.com/user-attachments/assets/3211ab4d-fe8a-42b5-a043-8e0444cbd0aa" />
+
 
 In Data-engineering-project folder in shell, paste the following commands:
 ```bash
