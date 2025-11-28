@@ -23,7 +23,7 @@ RUN pip install --no-cache-dir \
     dbt-clickhouse
 
 # Töökataloog DBT või Python projektide jaoks
-WORKDIR /Data-engineering-project
+WORKDIR /project
 
 # Kopeerime andmed ja skriptid (vajadusel)
 COPY sample_data/ ./sample_data/
