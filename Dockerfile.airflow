@@ -1,17 +1,16 @@
 FROM apache/airflow:2.8.1-python3.11
 
 USER root
-RUN apt-get update && apt-get install -y build-essential git curl
+RUN apt-get update && apt-get install -y build-essential git curl libcurl4-openssl-dev
 USER airflow
 
-# Uuenda pip, vajalik Arrow wheelide jaoks
-RUN pip install --upgrade pip
+# Uuenda pip ja wheel
+RUN pip install --upgrade pip wheel setuptools
 
-# Installeeri vajalikud paketid
+# Installi stabiilsed paketid
 RUN pip install --no-cache-dir \
-    duckdb \
-    pandas \
-    clickhouse-driver \
-    "pyarrow==15.0.2" \
-    "pyiceberg==0.10.0"
-
+    duckdb==1.9.0 \
+    pandas==2.1.1 \
+    clickhouse-driver==0.2.3 \
+    pyarrow==12.0.0 \
+    pyiceberg==0.10.0
