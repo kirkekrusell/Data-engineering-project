@@ -1,5 +1,5 @@
 clickhouse-driver
-pyarrow==15.0.2
+pyarrow==16.1.0
 duckdb
 pandas
 git+https://github.com/apache/iceberg-python.git
