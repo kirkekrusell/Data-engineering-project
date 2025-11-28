@@ -15,7 +15,7 @@ RUN pip install --upgrade pip setuptools wheel
 # Paigalda Python paketid ilma liiga rangete versioonipiiranguteta
 RUN pip install --no-cache-dir \
     duckdb \
-    pyarrow>=15.0.0,<16.0.0 \
+    "pyarrow>=15.0.0,<16.0.0" \
     pyiceberg \
     pandas \
     clickhouse-driver \
