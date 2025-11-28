@@ -1,89 +1,75 @@
-import duckdb
-import pyarrow as pa
-from pyiceberg.catalog import load_catalog
-from pyiceberg.exceptions import NoSuchTableError, NamespaceAlreadyExistsError
+def ingest_bronze_mtr():
+    import duckdb
+    import pyarrow as pa
+    from pyiceberg.catalog import load_catalog
+    from pyiceberg.exceptions import NoSuchTableError, NamespaceAlreadyExistsError
 
-# ------------------------------
-# DuckDB Connection (persistent DB file)
-# ------------------------------
-conn = duckdb.connect("project.duckdb")  # persistent DB file
-conn.install_extension("httpfs")
-conn.load_extension("httpfs")
+    # DuckDB connection
+    conn = duckdb.connect("project.duckdb")
+    conn.install_extension("httpfs")
+    conn.load_extension("httpfs")
 
-# Configure S3 (MinIO)
-conn.sql("""
-SET s3_region='us-east-1';
-SET s3_url_style='path';
-SET s3_endpoint='minio:9000';
-SET s3_access_key_id='minio_user';
-SET s3_secret_access_key='minio_pass';
-SET s3_use_ssl=false;
-""")
+    # S3 / MinIO config
+    conn.sql("""
+    SET s3_region='us-east-1';
+    SET s3_url_style='path';
+    SET s3_endpoint='minio:9000';
+    SET s3_access_key_id='minio_user';
+    SET s3_secret_access_key='minio_pass';
+    SET s3_use_ssl=false;
+    """)
 
-# ------------------------------
-# Load CSV into DuckDB as raw_mtr_data
-# ------------------------------
-csv_path = "/opt/airflow/repo/Implementation/data/mtr_test_2_utf8.csv"
-conn.sql(f"""
-CREATE OR REPLACE TABLE raw_mtr_data AS
-SELECT * FROM read_csv_auto('{csv_path}', delim=';')
-""")
+    # Load CSV into DuckDB
+    csv_path = "/opt/airflow/repo/Implementation/data/mtr_test_2_utf8.csv"
+    conn.sql(f"""
+    CREATE OR REPLACE TABLE raw_mtr_data AS
+    SELECT * FROM read_csv_auto('{csv_path}', delim=';')
+    """)
+    print("✅ DuckDB table 'raw_mtr_data' created")
 
-print("✅ DuckDB table 'raw_mtr_data' created from CSV")
+    # PyIceberg catalog
+    catalog = load_catalog("rest")
+    namespace = "bronze"
+    table_name = "mtr_iceberg"
 
-# ------------------------------
-# Load PyIceberg REST Catalog
-# ------------------------------
-catalog = load_catalog(name="rest")
-namespace = "bronze"
-table_name = "mtr_iceberg"
+    try:
+        catalog.create_namespace(namespace)
+        print(f"✅ Namespace '{namespace}' created")
+    except NamespaceAlreadyExistsError:
+        print(f"⚠ Namespace '{namespace}' already exists, skipping creation")
 
-# ------------------------------
-# Create namespace if it doesn't exist
-# ------------------------------
-try:
-    catalog.create_namespace(namespace)
-    print(f"✅ Namespace '{namespace}' created")
-except NamespaceAlreadyExistsError:
-    print(f"⚠ Namespace '{namespace}' already exists, skipping creation")
+    # Read Arrow table
+    arrow_reader = conn.sql("""
+    SELECT
+        Registrikood AS registrikood,
+        Tegevusala AS tegevusala,
+        "Kehtivuse algus" AS alguskuupaev,
+        "Kehtivuse lõpp" AS loppkuupaev,
+        Kehtiv AS staatus,
+        Lisainfo AS allikas
+    FROM raw_mtr_data
+    """).arrow()
 
-# ------------------------------
-# Select only bronze columns
-# ------------------------------
+    arrow_table = pa.Table.from_batches(arrow_reader)
 
-arrow_reader = conn.sql("""
-SELECT
-    Registrikood AS registrikood,
-    Tegevusala AS tegevusala,
-    "Kehtivuse algus" AS alguskuupaev,
-    "Kehtivuse lõpp" AS loppkuupaev,
-    Kehtiv AS staatus,
-    Lisainfo AS allikas
-FROM raw_mtr_data
-""").arrow()
+    # Drop table if exists
+    try:
+        catalog.drop_table(f"{namespace}.{table_name}")
+        print(f"⚠ Table '{namespace}.{table_name}' existed and was dropped")
+    except NoSuchTableError:
+        print(f"⚠ Table '{namespace}.{table_name}' did not exist, skipping drop")
 
-arrow_table = pa.Table.from_batches(arrow_reader)
+    # Create Iceberg table
+    table = catalog.create_table(
+        identifier=f"{namespace}.{table_name}",
+        schema=arrow_table.schema
+    )
+    print(f"✅ Table '{namespace}.{table_name}' created")
 
-# ------------------------------
-# Drop table if exists
-# ------------------------------
-try:
-    catalog.drop_table(f"{namespace}.{table_name}")
-    print(f"⚠ Table '{namespace}.{table_name}' existed and was dropped")
-except NoSuchTableError:
-    print(f"⚠ Table '{namespace}.{table_name}' did not exist, skipping drop")
+    # Append data
+    table.append(arrow_table)
+    print(f"✅ Data appended to '{namespace}.{table_name}'")
 
-# ------------------------------
-# Create Iceberg table
-# ------------------------------
-table = catalog.create_table(
-    identifier=f"{namespace}.{table_name}",
-    schema=arrow_table.schema,
-)
-print(f"✅ Table '{namespace}.{table_name}' created")
-
-# ------------------------------
-# Append data and commit
-# ------------------------------
-table.append(arrow_table)
-print(f"✅ Data appended to '{namespace}.{table_name}'")
+# Make callable from Airflow DAG
+if __name__ == "__main__":
+    ingest_bronze_mtr()
