@@ -4,7 +4,7 @@ FROM apache/airflow:2.8.1-python3.10
 # Luba root õigused süsteemi sõltuvuste paigaldamiseks
 USER root
 
-# Paigalda build tools ja vajalikud system libraries
+# Paigalda vajalikud süsteemi tööriistad
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     git \
@@ -12,23 +12,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcurl4-openssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Vaheta tagasi airflow user
+# Vaheta tagasi airflow kasutaja
 USER airflow
 
-# Uuenda pip, setuptools ja wheel, et tagada wheel’i kasutamine
+# Uuenda pip ja wheel, et saada prebuilt wheel'id
 RUN pip install --upgrade pip setuptools wheel
 
-# Paigalda kõik vajalikud Python paketid kindlate versioonidega
+# Paigalda Python paketid ilma liiga rangete versioonipiiranguteta
 RUN pip install --no-cache-dir \
-    duckdb==1.9.0 \
-    pandas==2.1.1 \
-    clickhouse-driver==0.2.3 \
-    pyarrow==12.0.0 \
-    pyiceberg==0.10.0 \
-    dbt-core==1.5.2 \
-    dbt-clickhouse==1.1.1
+    duckdb \
+    pandas \
+    clickhouse-driver \
+    "pyarrow>=12.0.0,<16.0.0" \
+    pyiceberg \
+    dbt-core \
+    dbt-clickhouse
 
-# Töökaust Airflow DAGs ja scripts
+# Töökataloog DAGs ja skriptide jaoks
 WORKDIR /opt/airflow
 
-# Entrypoint jääb samaks, Airflow entrypoint on juba defines
+# ENTRYPOINT jääb samaks, Airflow entrypoint on juba defineeritud
