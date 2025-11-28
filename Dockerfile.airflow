@@ -1,16 +1,34 @@
-FROM apache/airflow:2.8.1-python3.11
+# Baaspilt: Airflow koos Python 3.10 (stabiilsem PyArrow jaoks)
+FROM apache/airflow:2.8.1-python3.10
 
+# Luba root õigused süsteemi sõltuvuste paigaldamiseks
 USER root
-RUN apt-get update && apt-get install -y build-essential git curl libcurl4-openssl-dev
+
+# Paigalda build tools ja vajalikud system libraries
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    curl \
+    libcurl4-openssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Vaheta tagasi airflow user
 USER airflow
 
-# Uuenda pip ja wheel
-RUN pip install --upgrade pip wheel setuptools
+# Uuenda pip, setuptools ja wheel, et tagada wheel’i kasutamine
+RUN pip install --upgrade pip setuptools wheel
 
-# Installi stabiilsed paketid
+# Paigalda kõik vajalikud Python paketid kindlate versioonidega
 RUN pip install --no-cache-dir \
     duckdb==1.9.0 \
     pandas==2.1.1 \
     clickhouse-driver==0.2.3 \
     pyarrow==12.0.0 \
-    pyiceberg==0.10.0
+    pyiceberg==0.10.0 \
+    dbt-core==1.5.2 \
+    dbt-clickhouse==1.1.1
+
+# Töökaust Airflow DAGs ja scripts
+WORKDIR /opt/airflow
+
+# Entrypoint jääb samaks, Airflow entrypoint on juba defines
