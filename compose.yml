@@ -164,7 +164,7 @@ services:
     restart: always
 
   openmetadata:
-    image: openmetadata/server:0.15.0
+    image: openmetadata/server:latest
     container_name: openmetadata
     ports:
       - "8585:8585"
