@@ -133,7 +133,7 @@ SELECT COUNT(*) FROM raw_company_data;
 
 In Data-engineering-project folder in shell, paste the following commands:
 ```bash
-docker cp "data/ariregister_clean_fixed.csv" clickhouse:/tmp/ariregister_clean_fixed.csv
+docker cp "data/ariregister_clean.csv" clickhouse:/tmp/ariregister_clean.csv
 docker exec -it clickhouse bash
 clickhouse-client --query="TRUNCATE TABLE raw_company_data"
 clickhouse-client --query="INSERT INTO raw_company_data FORMAT CSVWithNames SETTINGS format_csv_delimiter=';'" < /tmp/ettevotjad_clean.csv
