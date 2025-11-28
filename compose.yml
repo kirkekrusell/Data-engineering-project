@@ -150,11 +150,42 @@ services:
       - minio
     restart: always
 
+  openmetadata:
+    image: openmetadata/openmetadata:0.15.0
+    container_name: openmetadata
+    ports:
+      - "8585:8585"   # UI port
+    environment:
+      DATABASE_USERNAME: omuser
+      DATABASE_PASSWORD: ompass
+      DATABASE_HOST: openmetadata-db
+      DATABASE_PORT: 5432
+      DATABASE_DBNAME: openmetadata
+    depends_on:
+      - openmetadata-db
+    volumes:
+      - ./Implementation/openmetadata:/openmetadata/config
+    restart: always
+
+  openmetadata-db:
+    image: postgres:15
+    container_name: openmetadata-db
+    environment:
+      POSTGRES_USER: omuser
+      POSTGRES_PASSWORD: ompass
+      POSTGRES_DB: openmetadata
+    ports:
+      - "5436:5432"
+    volumes:
+      - openmetadata_data:/var/lib/postgresql/data
+    restart: always
+  
 # --- Volumes deklaratsioon ---
 volumes:
   pgdata_airflow:
   minio_data:
   clickhouse_data:
+  openmetadata_data:
 
 
 
