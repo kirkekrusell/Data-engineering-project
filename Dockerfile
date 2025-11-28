@@ -24,11 +24,6 @@ RUN pip install --no-cache-dir \
 
 # Töökataloog DBT või Python projektide jaoks
 WORKDIR /project
-
-# Kopeerime andmed ja skriptid (vajadusel)
-COPY sample_data/ ./sample_data/
-COPY scripts/ ./scripts/
-
 # Käivituspunkt – bash, et saaksid konteineris käske jooksutada
 ENTRYPOINT ["bash"]
 
