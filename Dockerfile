@@ -1,29 +1,34 @@
-# ---- Optimeeritud Python 3.10 baaspilt ----
-FROM python:3.10-slim
+FROM python:3.11-slim
 
-# ---- Paigalda build tools ja vajalikud system libraries ----
-RUN apt-get update && apt-get install -y \
+# Paigalda vajalikud süsteemi tööriistad
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    git \
     curl \
-    libcurl4-openssl-dev \
+    git \
+    wget \
+    iputils-ping \
     && rm -rf /var/lib/apt/lists/*
 
-# ---- Set working directory ----
-WORKDIR /dbt
+# Uuenda pip ja setuptools, et saada prebuilt wheel'id
+RUN pip install --upgrade pip setuptools wheel
 
-# ---- Install Python dependencies ----
-# Fikseeritud versioonid, mis on stabiilsed ja ei tekita PyArrow build probleeme
+# Paigalda Python paketid ilma liiga rangete versioonipiiranguteta
 RUN pip install --no-cache-dir \
-    dbt-core==1.6.2 \
-    dbt-clickhouse==1.6.0 \
-    duckdb==1.9.0 \
-    pyarrow==12.0.0 \
-    pyiceberg==0.10.0 \
-    pandas==2.1.1 \
-    clickhouse-driver==0.2.3
+    duckdb \
+    pyarrow>=15.0.0,<16.0.0 \
+    pyiceberg \
+    pandas \
+    clickhouse-driver \
+    dbt-core \
+    dbt-clickhouse
 
-# ---- Entrypoint DBT jaoks ----
-ENTRYPOINT ["dbt"]
+# Töökataloog DBT või Python projektide jaoks
+WORKDIR /Data-engineering-project
 
+# Kopeerime andmed ja skriptid (vajadusel)
+COPY sample_data/ ./sample_data/
+COPY scripts/ ./scripts/
+
+# Käivituspunkt – bash, et saaksid konteineris käske jooksutada
+ENTRYPOINT ["bash"]
 
