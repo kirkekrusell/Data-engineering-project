@@ -290,7 +290,7 @@ dbt test
 ## Silver Layer - Cleaned MTR Data
 ### Model: silver_mtr_clean.sql
 This model will clean and filter your raw data from the Bronze layer.
-
+Run the following in ClickHouse.
 ```bash
 SELECT
     registrikood,
