@@ -150,35 +150,54 @@ services:
       - minio
     restart: always
 
-  openmetadata-db:
-    image: postgres:15
-    container_name: openmetadata-db
+  mysql:
+    container_name: openmetadata_mysql
+    image: docker.getcollate.io/openmetadata/db:1.10.7
     environment:
-      POSTGRES_USER: omuser
-      POSTGRES_PASSWORD: ompass
-      POSTGRES_DB: openmetadata
+      MYSQL_ROOT_PASSWORD: password
     ports:
-      - "5436:5432"
+      - "3306:3306"
     volumes:
-      - openmetadata_data:/var/lib/postgresql/data
-    restart: always
+      - ./docker-volume/db-data:/var/lib/mysql
 
-  openmetadata:
-    image: openmetadata/server:latest
-    container_name: openmetadata
+  elasticsearch:
+    container_name: openmetadata_elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.4
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+
+  execute-migrate-all:
+    image: docker.getcollate.io/openmetadata/server:1.10.7
+    command: "./bootstrap/openmetadata-ops.sh migrate"
+    depends_on:
+      - mysql
+      - elasticsearch
+
+  openmetadata-server:
+    image: docker.getcollate.io/openmetadata/server:1.10.7
+    container_name: openmetadata_server
     ports:
       - "8585:8585"
-    environment:
-      DATABASE_USERNAME: omuser
-      DATABASE_PASSWORD: ompass
-      DATABASE_HOST: openmetadata-db
-      DATABASE_PORT: 5432
-      DATABASE_DBNAME: openmetadata
     depends_on:
-      - openmetadata-db
-    volumes:
-      - ./Implementation/openmetadata:/openmetadata/config
-    restart: always
+      - mysql
+      - elasticsearch
+      - execute-migrate-all
+
+  ingestion:
+    image: docker.getcollate.io/openmetadata/ingestion:1.10.7
+    container_name: openmetadata_ingestion
+    depends_on:
+      - mysql
+      - elasticsearch
+      - openmetadata-server
+    ports:
+      - "8080:8080"
 
   clickhouse-server-omd:
     image: clickhouse/clickhouse-server
@@ -202,11 +221,10 @@ services:
 # --- Volumes deklaratsioon ---
 volumes:
   pgdata_airflow:
-  minio_data:
   clickhouse_data:
-  openmetadata_data:
   clickhouse-omd-data:
-
+  es-data:
+  db-data:
 
 
 
