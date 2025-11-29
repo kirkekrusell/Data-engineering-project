@@ -70,3 +70,21 @@ print(table.scan().to_arrow().to_pandas().head())
 exit
 ```
 <img width="1271" height="503" alt="image" src="https://github.com/user-attachments/assets/f63ef6a1-20ce-42df-bc35-403690864250" />
+
+## OpenMetadata
+
+## Environment Setup
+
+Install dependencies in Airflow containers:
+Airflow webserver:
+
+Use docker ```compose up -d``` to start the OpenMetadata services.
+Note: this can take several minutes.
+
+Then, navigate to the OpenMetadata UI by opening your browser and going to localhost:8585
+
+The default Username and Password are:
+```bash
+Username - admin@open-metadata.org
+Password - admin
+```
