@@ -150,7 +150,7 @@ services:
 
   mysql:
     container_name: openmetadata_mysql
-    image: docker.getcollate.io/openmetadata/db:1.10.7
+    image: openmetadata/db:1.10.7
     environment:
       MYSQL_ROOT_PASSWORD: password
     ports:
@@ -171,14 +171,14 @@ services:
       - es-data:/usr/share/elasticsearch/data
 
   execute-migrate-all:
-    image: docker.getcollate.io/openmetadata/server:1.10.7
+    image: openmetadata/server:1.10.7
     command: "./bootstrap/openmetadata-ops.sh migrate"
     depends_on:
       - mysql
       - elasticsearch
 
   openmetadata-server:
-    image: openmetadata/server:1.2.3
+    image: openmetadata/server:1.10.7
     container_name: openmetadata_server
     ports:
       - "8585:8585"
@@ -188,7 +188,7 @@ services:
       - execute-migrate-all
 
   ingestion:
-    image: openmetadata/ingestion:1.2.3
+    image: openmetadata/ingestion:1.10.7
     container_name: openmetadata_ingestion
     depends_on:
       - mysql
