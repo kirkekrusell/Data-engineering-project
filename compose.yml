@@ -173,6 +173,12 @@ services:
   execute-migrate-all:
     image: openmetadata/server:1.10.7
     command: "./bootstrap/openmetadata-ops.sh migrate"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: password
+      OM_DATABASE: openmetadata_db
     depends_on:
       - mysql
       - elasticsearch
@@ -182,6 +188,12 @@ services:
     container_name: openmetadata_server
     ports:
       - "8586:8585"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: password
+      OM_DATABASE: openmetadata_db
     depends_on:
       - mysql
       - elasticsearch
