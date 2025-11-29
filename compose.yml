@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   airflow-db:
     container_name: airflow-db
