@@ -75,9 +75,6 @@ exit
 
 ## Environment Setup
 
-Install dependencies in Airflow containers:
-Airflow webserver:
-
 Use docker ```compose up -d``` to start the OpenMetadata services.
 Note: this can take several minutes.
 
