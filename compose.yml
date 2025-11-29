@@ -199,30 +199,10 @@ services:
     ports:
       - "8080:8080"
 
-  clickhouse-server-omd:
-    image: clickhouse/clickhouse-server
-    container_name: clickhouse-server-omd
-    environment:
-      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
-      CLICKHOUSE_USER: admin
-      CLICKHOUSE_PASSWORD: admin_password
-    ports:
-      - "8123:8123"   # HTTP interface
-      - "9000:9000"   # Native client interface
-    volumes:
-      - clickhouse-omd-data:/var/lib/clickhouse
-      - ./sql:/sql
-      - ./sample_data:/var/lib/clickhouse/user_files
-    ulimits:
-      nofile:
-        soft: 262144
-        hard: 262144
-
 # --- Volumes deklaratsioon ---
 volumes:
   pgdata_airflow:
   clickhouse_data:
-  clickhouse-omd-data:
   es-data:
   db-data:
   minio_data:
