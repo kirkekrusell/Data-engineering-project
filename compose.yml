@@ -153,10 +153,13 @@ services:
     image: openmetadata/db:1.10.7
     environment:
       MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: openmetadata_db
+      MYSQL_USER: openmetadata
+      MYSQL_PASSWORD: openmetadata
     ports:
       - "3306:3306"
     volumes:
-      - ./docker-volume/db-data:/var/lib/mysql
+      - ./docker-volume/db-data:/var/lib/mysq
 
   elasticsearch:
     container_name: openmetadata_elasticsearch
@@ -176,8 +179,8 @@ services:
     environment:
       DB_HOST: mysql
       DB_PORT: 3306
-      DB_USER: root
-      DB_PASSWORD: password
+      DB_USER: openmetadata
+      DB_PASSWORD: openmetadata
       OM_DATABASE: openmetadata_db
     depends_on:
       - mysql
@@ -191,14 +194,14 @@ services:
     environment:
       DB_HOST: mysql
       DB_PORT: 3306
-      DB_USER: root
-      DB_PASSWORD: password
+      DB_USER: openmetadata
+      DB_PASSWORD: openmetadata
       OM_DATABASE: openmetadata_db
     depends_on:
       - mysql
       - elasticsearch
       - execute-migrate-all
-
+      
   ingestion:
     image: openmetadata/ingestion:1.10.7
     container_name: openmetadata_ingestion
