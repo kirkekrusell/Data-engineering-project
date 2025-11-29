@@ -178,7 +178,7 @@ services:
       - elasticsearch
 
   openmetadata-server:
-    image: docker.getcollate.io/openmetadata/server:1.10.7
+    image: openmetadata/server:1.2.3
     container_name: openmetadata_server
     ports:
       - "8585:8585"
@@ -188,7 +188,7 @@ services:
       - execute-migrate-all
 
   ingestion:
-    image: docker.getcollate.io/openmetadata/ingestion:1.10.7
+    image: openmetadata/ingestion:1.2.3
     container_name: openmetadata_ingestion
     depends_on:
       - mysql
@@ -196,6 +196,7 @@ services:
       - openmetadata-server
     ports:
       - "8080:8080"
+
 
 # --- Volumes deklaratsioon ---
 volumes:
