@@ -181,7 +181,7 @@ services:
     image: openmetadata/server:1.10.7
     container_name: openmetadata_server
     ports:
-      - "8585:8585"
+      - "8586:8585"
     depends_on:
       - mysql
       - elasticsearch
