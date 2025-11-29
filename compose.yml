@@ -225,6 +225,7 @@ volumes:
   clickhouse-omd-data:
   es-data:
   db-data:
+  minio_data:
 
 
 
