@@ -273,3 +273,31 @@ Navigate to a table → Data Quality → Add Test.
 ### In OpenMetadata UI, go to Data Quality → Run Tests Now.
 
 ### Wait for results (Passed/Failed).
+
+# Apache Superset
+
+## Connect to ClickHouse
+
+Add database connection:
+
+    Superset UI → Data → Databases → + Database → ClickHouse.
+
+SQLAlchemy URI (native): clickhouse+native://admin:password@clickhouse:9000/default
+SQLAlchemy URI (HTTP alternative): clickhouse+http://admin:password@clickhouse:8123/default
+Action: Test connection → Save.
+
+## Register gold views as datasets:
+
+    Superset UI → Data → Datasets → + Dataset.
+    Select database: your ClickHouse connection.
+    
+    Choose views:
+    v_companies_full
+    v_companies_limited
+
+## Build dashboard
+
+    Create charts:
+
+        Chart 1:
+        Chart 2:
