@@ -8,5 +8,5 @@ IDENTIFIED BY 'full_strong_password';
 -- give the user this role 
 GRANT analyst_full TO full_user;
 
-GRANT SELECT ON *
+GRANT SELECT ON db_demo.*
 TO analyst_full;
