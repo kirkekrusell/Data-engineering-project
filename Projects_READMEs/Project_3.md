@@ -101,6 +101,29 @@ ON bronze_mtr_raw
 TO analyst_full;
 
 ```
+Now, we create analyst_limited and grant it limited access.
+```bash
+
+-- create role
+CREATE ROLE IF NOT EXISTS analyst_limited;
+
+-- create user 
+CREATE USER IF NOT EXISTS limited_user
+IDENTIFIED BY 'limited_strong_password';
+
+-- give the user this role 
+GRANT analyst_limited TO limited_user;
+
+-- give the user select rights only on required columns.
+GRANT SELECT (name, registry_code, vat_code, initial_registration_date, legal_form , legal_form_subtype)
+ON raw_company_data
+TO analyst_limited;
+
+GRANT SELECT (registrikood, tegevusala, alguskuupaev, loppkuupaev)
+ON bronze_mtr_raw 
+TO analyst_limited;
+
+```
 
 ## OpenMetadata
 
