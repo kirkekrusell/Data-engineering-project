@@ -1,5 +1,59 @@
 # Project 3
 
+## Updates to project 2
+### Updated SQL queries
+
+1. How many companies have multiple activity notices and operate in multiple sectors?
+```
+SELECT COUNT(*) AS company_count
+FROM (
+    SELECT dim_companies_id
+    FROM fact_mtr
+    GROUP BY dim_companies_id
+    HAVING COUNT(DISTINCT dim_activity_id) > 1
+       AND COUNT(DISTINCT mtr_registry_code) > 1
+) AS sub;
+```
+
+2. How many companies registered their economic activity areas in the same year they were established?
+```
+SELECT COUNT(DISTINCT fae.company_id) AS same_year_company_count
+FROM fact_activity_event fae
+JOIN dim_company dc ON fae.company_id = dc.company_id
+WHERE EXTRACT(YEAR FROM fae.start_date) = EXTRACT(YEAR FROM dc.initial_registration_date);
+```
+
+3. How many companies have terminated at least one economic activity notice?
+```
+SELECT COUNT(DISTINCT company_id) AS terminated_company_count
+FROM fact_activity_event
+WHERE end_date < CURRENT_DATE;
+```
+
+4. What is the average duration of an activity notice before it expires?
+```
+SELECT AVG(duration_days) AS avg_notice_duration
+FROM fact_activity_event
+WHERE end_date IS NOT NULL;
+```
+
+5. Percentage of companies with all activity notices expired?
+```
+SELECT 
+    ROUND(
+        100.0 * COUNT(CASE WHEN all_expired THEN 1 END) 
+        / COUNT(DISTINCT company_id), 
+        2
+    ) AS percentage_expired_companies
+FROM (
+    SELECT 
+        company_id,
+        MAX(end_date) < CURRENT_DATE AS all_expired
+    FROM fact_activity_event
+    GROUP BY company_id
+) AS company_status;
+```
+
 ## Apache Iceberg
 
 ## Environment Setup
