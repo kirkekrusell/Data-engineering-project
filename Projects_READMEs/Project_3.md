@@ -163,7 +163,7 @@ Role credentials for ClickHouse:
 
 
 
-#### Find the registry codes of companies
+#### **Find the registry codes of companies**
 **analyst_full**
 
 <img width="626" height="181" alt="image" src="https://github.com/user-attachments/assets/3e3c02b6-b9e7-419b-ab9a-5334efd67d34" />
@@ -176,7 +176,7 @@ Role credentials for ClickHouse:
 
 
 
-#### Group companies by county
+#### **Group companies by county**
 **analyst_full**
 
 <img width="638" height="125" alt="image" src="https://github.com/user-attachments/assets/71ebd7a5-7857-420f-ac71-c235815b78ae" />
@@ -189,7 +189,7 @@ Role credentials for ClickHouse:
 
 
 
-#### Find companies with 5-digit postal codes starting with '44'
+#### **Find companies with 5-digit postal codes starting with '44'**
 **analyst_full**
 
 <img width="638" height="68" alt="image" src="https://github.com/user-attachments/assets/108871e5-f929-40cf-a38b-3aef17ca7e54" />
