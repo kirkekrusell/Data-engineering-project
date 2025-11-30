@@ -96,9 +96,20 @@ Let's create analyst_full role and grant it access. Run the sql from `sql/analys
 Now, we create analyst_limited and grant it limited access. Run the sql from `sql/analyst_limited.sql` in Clickhouse.
 
 
-### 4. Example queries with both roles
+### 4. Sample queries with both roles
+
+You can find the sample queries in `sql/sample_queries.sql`
+
+Role credentials for ClickHouse:
+
+| **Role**        |  **User**    | **Password**            |
+|-----------------|--------------|-------------------------|
+| analyst_full    | full_user    | full_strong_password    |
+| analyst_limited | limited_user | limited_strong_password |
 
 
+#### Find companies with VAT codes
+<img width="1626" height="440" alt="image" src="https://github.com/user-attachments/assets/da929084-8358-475f-9855-1b5ab861d436" />
 
 ## OpenMetadata
 
