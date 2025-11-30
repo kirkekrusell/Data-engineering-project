@@ -81,7 +81,7 @@ docker exec -it clickhouse clickhouse-client --multiquery --queries-file=/sql/db
 
 ### 2. Data masking
 
-Paste the sql from `sql/db_demo.sql` to ClickHouse. This creates a view that masks fileds of `registry_code`, `normalized_adddress` and `postal_code`.
+Paste the sql from `sql/db_demo.sql` to ClickHouse. This creates a view that masks the fileds of `registry_code`, `normalized_adddress` and `postal_code`.
 
 
 ### 3. Create roles
