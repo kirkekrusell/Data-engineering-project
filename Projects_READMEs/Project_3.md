@@ -108,8 +108,13 @@ Role credentials for ClickHouse:
 | analyst_limited | limited_user | limited_strong_password |
 
 
-#### Find companies with VAT codes
-<img width="1626" height="440" alt="image" src="https://github.com/user-attachments/assets/da929084-8358-475f-9855-1b5ab861d436" />
+#### Find the registry codes of companies
+**analyst_full**
+<img width="626" height="181" alt="image" src="https://github.com/user-attachments/assets/3e3c02b6-b9e7-419b-ab9a-5334efd67d34" />
+
+
+**analyst_limited**
+
 
 ## OpenMetadata
 
