@@ -182,6 +182,7 @@ volumes:
   clickhouse_data:
   db-data:
   minio_data:
+  es-data:
 
 
 
