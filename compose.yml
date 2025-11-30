@@ -190,7 +190,7 @@ services:
     image: openmetadata/server:1.10.7
     container_name: openmetadata_server
     ports:
-      - "8586:8585"
+      - "8585:8585"
     environment:
       DB_HOST: mysql
       DB_PORT: 3306
