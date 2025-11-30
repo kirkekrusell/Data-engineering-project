@@ -73,6 +73,9 @@ exit
 
 ## ClickHouse
 ### Load into ClickHouse
+
+...
+
 ### Create roles
 
 Let's create analyst_full role and grant it access.
