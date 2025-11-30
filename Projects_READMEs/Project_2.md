@@ -255,8 +255,8 @@ clickhouse_profile:
       schema: default
       host: localhost
       port: 8123
-      user: airflow_user
-      password: airflow_pass
+      user: admin
+      password: password
       secure: false
       verify: false
       database: default
