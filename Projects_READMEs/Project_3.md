@@ -31,6 +31,7 @@ exit
 Re-run bash and check PyIceberg:
 ```bash
 docker exec -it airflow-webserver bash
+pip install minio --user
 python -c "import pyiceberg, minio; print('ok')"
 exit
 ```
