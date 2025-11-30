@@ -223,58 +223,53 @@ Username - admin@open-metadata.org
 Password - admin
 ```
 
-Register Services
+## Register Services
 
     In the OpenMetadata UI, go to Settings → Services → Add New Service.
 
-Register ClickHouse as a Database Service:
+### Register ClickHouse as a Database Service:
 
     Name: clickhouse_gold
-
     Host: clickhouse
-
     Port: 8123
-
     Username: admin
-
     Password: password
-
     Database: default
 
-    Save and run ingestion to discover tables/views.
+Save and run ingestion to discover tables/views.
 
-Register Superset as a Dashboard Service:
+### Register Superset as a Dashboard Service:
 
     Name: superset_prod
-
     Host URL: http://superset:8088
-
     Authentication: API key or username/password
 
-    Save and ingest dashboards.
+Save and ingest dashboards.
 
-Add Descriptions
+## Add Descriptions
 
-Fact table (fact_activity_event): “Contains activity events with company, activity type, status, and duration.”
+### Fact table: 
 
-Dimension tables:
+    fact_activity_event: “Contains activity events with company, activity type, status, and duration.”
+
+### Dimension tables:
 
     dim_company: “Company attributes tracked historically using SCD Type 2.”
     dim_date: “Calendar dimension with day, month, quarter and derived flags.”
     dim_activity_type: “Activity types with risk classification (low/medium/high).”
     dim_status: “Status codes and labels for activity events.”
 
-Add Data Quality Tests
+## Add Data Quality Tests
 
-    Navigate to a table → Data Quality → Add Test.
+Navigate to a table → Data Quality → Add Test.
 
     Add the following tests:
     Fact table foreign key not null → company_id in fact_activity_event.
     Dimension surrogate key unique → company_id in dim_company.
     Extra test → Row count > 0 in fact_activity_event.
 
-    Save tests and configure schedule (e.g., daily) or run manually.
+## Save tests and configure schedule (e.g., weekly on Sunday) or run manually.
 
-In OpenMetadata UI, go to Data Quality → Run Tests Now.
+### In OpenMetadata UI, go to Data Quality → Run Tests Now.
 
-Wait for results (Passed/Failed).
+### Wait for results (Passed/Failed).
