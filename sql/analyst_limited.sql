@@ -9,10 +9,6 @@ IDENTIFIED BY 'limited_strong_password';
 GRANT analyst_limited TO limited_user;
 
 -- give the user select rights only on required columns.
-GRANT SELECT (...)
-ON ...
-TO analyst_limited;
-
-GRANT SELECT (...)
-ON ... 
+GRANT SELECT (company_id, company_name, vat_code, initial_registration_date, legal_form, legal_form_subtype, valid_from, valid_to)
+ON TABLE dim_company
 TO analyst_limited;
