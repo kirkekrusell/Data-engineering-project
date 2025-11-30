@@ -129,7 +129,7 @@ exit
 
 ## ClickHouse
 ### 1. Load into ClickHouse
-**Note:** Since we had trouble with re-running the necessary steps of project 2, we created a small sample database `db_demo.sql` for the simplicity of demonstrating data masking and roles creation.
+**Note:** Since we had trouble with re-running the necessary steps of project 2, we created a small sample database `db_demo.sql` for the simplicity of demonstrating data masking and roles creation. The file creates and populates a table `dim_company` which is one of the tables from Gold layer.
 
 
 Load the sample database into ClickHouse:
