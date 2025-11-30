@@ -215,7 +215,7 @@ Role credentials for ClickHouse:
 Use docker ```compose up -d``` to start the OpenMetadata services.
 Note: this can take several minutes.
 
-Then, navigate to the OpenMetadata UI by opening your browser and going to localhost:8585
+Then, navigate to the OpenMetadata UI by opening your browser and going to [localhost:8585](http://localhost:8585/)
 
 The default Username and Password are:
 ```bash
