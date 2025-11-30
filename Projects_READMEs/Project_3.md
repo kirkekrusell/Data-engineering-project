@@ -162,15 +162,18 @@ Role credentials for ClickHouse:
 | analyst_limited | limited_user | limited_strong_password |
 
 
+
 #### Find the registry codes of companies
 **analyst_full**
 
 <img width="626" height="181" alt="image" src="https://github.com/user-attachments/assets/3e3c02b6-b9e7-419b-ab9a-5334efd67d34" />
 
 
+
 **analyst_limited**
 
 <img width="622" height="186" alt="image" src="https://github.com/user-attachments/assets/07befd63-4d02-435e-bd4b-25fc78acea93" />
+
 
 
 #### Group companies by county
@@ -179,9 +182,11 @@ Role credentials for ClickHouse:
 <img width="638" height="125" alt="image" src="https://github.com/user-attachments/assets/71ebd7a5-7857-420f-ac71-c235815b78ae" />
 
 
+
 **analyst_limited**
 
 <img width="638" height="71" alt="image" src="https://github.com/user-attachments/assets/47ba453e-2b67-49ab-bee9-cd45b5ecfe0b" />
+
 
 
 #### Find companies with 5-digit postal codes starting with '44'
@@ -189,9 +194,11 @@ Role credentials for ClickHouse:
 
 <img width="638" height="68" alt="image" src="https://github.com/user-attachments/assets/108871e5-f929-40cf-a38b-3aef17ca7e54" />
 
+
+
 **analyst_limited**
 
-<img width="877" height="93" alt="image" src="https://github.com/user-attachments/assets/e63e0386-da4b-4412-9586-cc9e7e7586e5" />
+<img width="877" height="68" alt="image" src="https://github.com/user-attachments/assets/f7588a42-ab86-4d54-a174-1ee625a1f502" />
 
 
 
