@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW dim_company_masked AS
+CREATE OR REPLACE VIEW db_demo.dim_company_masked AS
 SELECT
 
     --- registry_code: keep only last 4 digits
