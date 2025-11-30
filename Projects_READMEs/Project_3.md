@@ -263,11 +263,22 @@ Save and ingest dashboards.
 
 Navigate to a table → Data Quality → Add Test.
 
-    Add the following tests:
-    Fact table foreign key not null → company_id in fact_activity_event.
-    Dimension surrogate key unique → company_id in dim_company.
-    Extra test → Row count > 0 in fact_activity_event.
+Add the following tests:
 
+    Fact table foreign key check
+        Table: fact_activity_event
+        Column: company_id
+        Test: Not Null (ensures every fact record links to a company)
+
+    Dimension surrogate key check
+        Table: dim_company
+        Column: company_id
+        Test: Unique (ensures each company has a distinct surrogate key)
+
+    Additional validation
+        Table: fact_activity_event
+        Test: Row Count > 0 (verifies that the fact table contains data)
+    
 ## Save tests and configure schedule (e.g., weekly on Sunday) or run manually.
 
 ### In OpenMetadata UI, go to Data Quality → Run Tests Now.
