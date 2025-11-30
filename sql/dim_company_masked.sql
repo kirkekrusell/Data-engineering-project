@@ -20,4 +20,4 @@ SELECT
     valid_from,
     valid_to
 
-FROM dim_company;
+FROM db_demo.dim_company;
