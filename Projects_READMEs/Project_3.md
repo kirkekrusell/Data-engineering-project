@@ -133,6 +133,11 @@ exit
 
 
 Load the sample database into ClickHouse:
+**Credentials:** 
+
+**user**: admin
+
+**password**: password
 
 ```bash
 docker exec -it clickhouse clickhouse-client --multiquery --queries-file=/sql/db_demo.sql
