@@ -73,7 +73,8 @@ exit
 
 ## ClickHouse
 ### 1. Load into ClickHouse
-Load the sample database into ClickHouse
+Since we had trouble with re-running the necessary steps of project 2, we created a sample data for the simplicity of demonstrating data masking and roles creation.
+Load the sample database into ClickHouse:
 
 ```bash
 docker exec -it clickhouse clickhouse-client --multiquery --queries-file=/sql/db_demo.sql
