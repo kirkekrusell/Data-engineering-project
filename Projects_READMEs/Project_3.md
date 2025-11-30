@@ -133,6 +133,7 @@ exit
 
 
 Load the sample database into ClickHouse:
+
 **Credentials:** 
 
 **user**: admin
