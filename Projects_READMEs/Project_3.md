@@ -73,18 +73,25 @@ exit
 
 ## ClickHouse
 ### 1. Load into ClickHouse
+Load the sample database into ClickHouse
 
-...
+```bash
+docker exec -it clickhouse clickhouse-client --multiquery --queries-file=/sql/db_demo.sql
+```
 
-### 2. Create roles
+### 2. Data masking
 
-Let's create analyst_full role and grant it access. Run the `sql/analyst_full.sql` file in Clickhouse.
-
-
-Now, we create analyst_limited and grant it limited access. Run the `sql/analyst_limited.sql` file in Clickhouse.
+Paste the sql from `sql/db_demo.sql` to ClickHouse. This creates a view that masks fileds of `registry_code`, `normalized_adddress` and `postal_code`.
 
 
-### 3. Data masking
+### 3. Create roles
+
+Let's create analyst_full role and grant it access. Run the sql from `sql/analyst_full.sql` in Clickhouse.
+
+Now, we create analyst_limited and grant it limited access. Run the sql from `sql/analyst_limited.sql` in Clickhouse.
+
+
+### 4. Example queries with both roles
 
 
 
