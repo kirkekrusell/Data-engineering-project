@@ -159,7 +159,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./docker-volume/db-data:/var/lib/mysq
+      - ./docker-volume/db-data:/var/lib/mysql
 
   elasticsearch:
     container_name: openmetadata_elasticsearch
