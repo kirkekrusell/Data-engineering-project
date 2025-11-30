@@ -71,6 +71,34 @@ exit
 ```
 <img width="1271" height="503" alt="image" src="https://github.com/user-attachments/assets/f63ef6a1-20ce-42df-bc35-403690864250" />
 
+## ClickHouse
+### Load into ClickHouse
+### Create roles
+
+Let's create analyst_full role and grant it access.
+```bash
+
+-- create role
+CREATE ROLE IF NOT EXISTS analyst_full;
+
+-- create user 
+CREATE USER IF NOT EXISTS full_user
+IDENTIFIED BY 'full_strong_password';
+
+-- give the user this role 
+GRANT analyst_full TO full_user;
+
+-- give the user select rights only on required columns.
+GRANT SELECT (name, registry_code, vat_code, initial_registration_date, normalized_address, postal_code, legal_form , legal_form_subtype)
+ON raw_company_data
+TO analyst_full;
+
+GRANT SELECT (registrikood, tgevusala, alguskuupaev, loppkuupaev, staatus, allikas)
+ON bronze_mtr_raw 
+TO analyst_full;
+
+```
+
 ## OpenMetadata
 
 ## Environment Setup
