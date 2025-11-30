@@ -8,11 +8,9 @@ IDENTIFIED BY 'limited_strong_password';
 -- give the user this role 
 GRANT analyst_limited TO limited_user;
 
---- give the user the usage rights to db_demo
-GRANT USAGE ON DATABASE db_demo TO analyst_limited;
 
 -- give the user select rights only on required columns.
-GRANT SELECT (company_id, company_name, vat_code, initial_registration_date, legal_form, legal_form_subtype, valid_from, valid_to)
+GRANT SELECT (registry_code, company_id, company_name, vat_code, initial_registration_date, postal_code, legal_form, legal_form_subtype, valid_from, valid_to)
 ON db_demo.dim_company
 TO analyst_limited;
 
