@@ -1,7 +1,6 @@
---- Find companies with VAT codes
-SELECT company_name, vat_code
-FROM db_demo.dim_company
-WHERE vat_code != '';
+--- Find the registry codes of companies
+SELECT company_name, registry_code
+FROM db_demo.dim_company;
 
 --- Group companies by county
 SELECT
