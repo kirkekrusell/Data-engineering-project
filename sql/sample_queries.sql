@@ -27,4 +27,4 @@ WHERE postal_code LIKE '44%';
 
 SELECT registry_code_masked, company_name, postal_code_masked
 FROM db_demo.dim_company_masked
-WHERE postal_code_masked LIKE '44%';
+WHERE postal_code_masked LIKE '***44%';
