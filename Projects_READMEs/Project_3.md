@@ -78,10 +78,10 @@ exit
 
 ### 2. Create roles
 
-Let's create analyst_full role and grant it access. Run the sql/analyst_full.sql file in Clickhouse.
+Let's create analyst_full role and grant it access. Run the `sql/analyst_full.sql` file in Clickhouse.
 
 
-Now, we create analyst_limited and grant it limited access. Run the sql/analyst_limited.sql file in Clickhouse.
+Now, we create analyst_limited and grant it limited access. Run the `sql/analyst_limited.sql` file in Clickhouse.
 
 
 ### 3. Data masking
