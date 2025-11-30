@@ -45,6 +45,7 @@ Ingest CSV into Iceberg (bronze layer)
 ```bash
 docker exec -it airflow-webserver bash
 python /opt/airflow/repo/Implementation/iceberg/bronze_mtr_iceberg_ingest.py
+exit
 ```
 You should see:
 
