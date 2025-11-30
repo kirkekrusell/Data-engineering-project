@@ -4,7 +4,7 @@
 ### Updated SQL queries
 
 1. How many companies have multiple activity notices and operate in multiple sectors?
-```
+```sql
 SELECT COUNT(*) AS company_count
 FROM (
     SELECT dim_companies_id
@@ -16,7 +16,7 @@ FROM (
 ```
 
 2. How many companies registered their economic activity areas in the same year they were established?
-```
+```sql
 SELECT COUNT(DISTINCT fae.company_id) AS same_year_company_count
 FROM fact_activity_event fae
 JOIN dim_company dc ON fae.company_id = dc.company_id
@@ -24,21 +24,21 @@ WHERE EXTRACT(YEAR FROM fae.start_date) = EXTRACT(YEAR FROM dc.initial_registrat
 ```
 
 3. How many companies have terminated at least one economic activity notice?
-```
+```sql
 SELECT COUNT(DISTINCT company_id) AS terminated_company_count
 FROM fact_activity_event
 WHERE end_date < CURRENT_DATE;
 ```
 
 4. What is the average duration of an activity notice before it expires?
-```
+```sql
 SELECT AVG(duration_days) AS avg_notice_duration
 FROM fact_activity_event
 WHERE end_date IS NOT NULL;
 ```
 
 5. Percentage of companies with all activity notices expired?
-```
+```sql
 SELECT 
     ROUND(
         100.0 * COUNT(CASE WHEN all_expired THEN 1 END) 
