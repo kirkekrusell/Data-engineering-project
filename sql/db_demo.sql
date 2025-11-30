@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS db_demo;
 
 CREATE TABLE db_demo.dim_company
 (
-    registry_code              UInt32,
+    registry_code              String,
     company_id                 UInt32,
     company_name               String,
     vat_code                   String,
