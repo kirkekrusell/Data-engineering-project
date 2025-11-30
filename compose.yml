@@ -140,8 +140,42 @@ services:
       OM_DATABASE: ${OM_MYSQL_DB}
     depends_on:
       - mysql
+      - elasticsearch
+      - execute-migrate-all
     restart: always
 
+  elasticsearch:
+    container_name: openmetadata_elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.4
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -qE 'green|yellow'"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+
+  execute-migrate-all:
+    image: openmetadata/server:1.10.7
+    container_name: execute_migrate_all
+    command: "./bootstrap/openmetadata-ops.sh migrate"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: ${OM_MYSQL_USER}
+      DB_PASSWORD: ${OM_MYSQL_PASSWORD}
+      OM_DATABASE: ${OM_MYSQL_DB}
+    depends_on:
+      - mysql
+      - elasticsearch
+      
 # --- Volumes deklaratsioon ---
 volumes:
   pgdata_airflow:
