@@ -13,6 +13,7 @@
     * [Group companies by county](#group-companies-by-county)
     * [Find companies with 5-digit postal codes starting with '44'](#find-companies-with-5-digit-postal-codes-starting-with-44)
 * [OpenMetadata](#openmetadata)
+   * [Notice](#notice)
   * [Environment Setup](#environment-setup)
   * [Register Services](#register-services)
     * [Register ClickHouse as a Database Service](#register-clickhouse-as-a-database-service)
@@ -239,6 +240,10 @@ Role credentials for ClickHouse:
 
 
 ## OpenMetadata
+
+## Notice
+
+Due to some technical difficulties (that we weren't able to fix in time) we weren't able to get OpenMetadata to open, so everything that follows is only theoretical. We haven't beeb able to actually test it through.
 
 ## Environment Setup
 
