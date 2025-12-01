@@ -5,7 +5,7 @@
 * [Key Metrics (KPIs)](#key-metrics-kpis)
 * [Business Questions](#business-questions)
 * [Datasets](#datasets)
-* [Creating tables](#creating-tables)
+    * [Creating tables](#creating-tables)
 * [Demo queries](#demo-queries)
 
 
@@ -41,7 +41,7 @@ Key columns: Number, Entrepreneur name, Register code, Start & End date, Valid, 
 
 You can create fact and dimension tables with this SQL script
 
-## Creating tables
+### Creating tables
 
 ```sql
 -- =====================================================
