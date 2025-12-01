@@ -1,5 +1,35 @@
 # Project 3
 
+* [Updates to project 2](#updates-to-project-2)
+    * [Updated SQL queries](#updated-sql-queries)
+* [Apache Iceberg](#apache-iceberg)
+    * [Environment Setup](#environment-setup)
+* [ClickHouse](#clickhouse)
+  * [1. Load into ClickHouse](#1-load-into-clickhouse)
+  * [2. Data masking](#2-data-masking)
+  * [3. Create roles](#3-create-roles)
+  * [4. Sample queries with both roles](#4-sample-queries-with-both-roles)
+    * [Find the registry codes of companies](#find-the-registry-codes-of-companies)
+    * [Group companies by county](#group-companies-by-county)
+    * [Find companies with 5-digit postal codes starting with '44'](#find-companies-with-5-digit-postal-codes-starting-with-44)
+* [OpenMetadata](#openmetadata)
+  * [Environment Setup](#environment-setup)
+  * [Register Services](#register-services)
+    * [Register ClickHouse as a Database Service](#register-clickhouse-as-a-database-service)
+    * [Register Superset as a Dashboard Service](#register-superset-as-a-dashboard-service)
+  * [Add Descriptions](#add-descriptions)
+    * [Fact table](#fact-table)
+    * [Dimension tables](#dimension-tables)
+  * [Add Data Quality Tests](#add-data-quality-tests)
+  * [Save tests and configure schedule (e.g., weekly on Sunday) or run manually](#save-tests-and-configure-schedule-eg-weekly-on-sunday-or-run-manually)
+    * [In OpenMetadata UI, go to Data Quality → Run Tests Now](#in-openmetadata-ui-go-to-data-quality--run-tests-now)
+    * [Wait for results (Passed/Failed)](#wait-for-results-passedfailed)
+* [Apache Superset](#apache-superset)
+  * [Connect to ClickHouse](#connect-to-clickhouse)
+  * [Register gold views as datasets](#register-gold-views-as-datasets)
+  * [Build dashboard](#build-dashboard) 
+
+
 ## Updates to project 2
 ### Updated SQL queries
 
