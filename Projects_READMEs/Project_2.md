@@ -26,7 +26,7 @@
     * [Dimension – dim_status.sql](#dimension--dim_statussql)
     * [Schema - models/gold/schema.yml](#schema---modelsgoldschemayml)
     * [raw_sources.yml](#raw_sourcesyml)
-* [Orchestration – Airflow + dbt](#orchestration–--airflow-dbt)
+* [Orchestration – Airflow + dbt](#orchestration--airflow--dbt)
     * [Gold Layer DAG](#gold-layer-dag)
     * [Test dbt Gold Models](#test-dbt-gold-models)
     * [DAG Schedule and Configuration](#dag-schedule-and-configuration)
