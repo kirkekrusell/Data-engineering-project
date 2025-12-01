@@ -24,7 +24,7 @@
     * [Dimension – dim_date.sql (SCD Type 0)](#dimension--dim_datesql-scd-type-0)
     * [Dimension – dim_activity_type.sql (SCD Type 0)](#dimension--dim_activity_typesql-scd-type-0)
     * [Dimension – dim_status.sql](#dimension--dim_statussql)
-    * [Schema - models/gold/schema.yml](#schema--modelsgoldschemayml)
+    * [Schema - models/gold/schema.yml](#schema---modelsgoldschemayml)
     * [raw_sources.yml](#raw_sourcesyml)
 * [Orchestration – Airflow + dbt](#orchestration–--airflow-dbt)
     * [Gold Layer DAG](#gold-layer-dag)
